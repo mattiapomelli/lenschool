@@ -1,14 +1,13 @@
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
+import { LensProvider } from "@lens-protocol/react-web";
 import {
   LivepeerConfig,
   createReactClient,
   studioProvider,
 } from "@livepeer/react";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { LensProvider } from "@lens-protocol/react-web";
-import { lensConfig } from "../utils/lens-provider";
 import { DefaultSeo } from "next-seo";
 import { ThemeProvider } from "next-themes";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
@@ -20,6 +19,7 @@ import { DefaultLayout } from "@layouts/default-layout";
 import { env } from "env.mjs";
 
 import SEO from "../../next-seo.config";
+import { lensConfig } from "../utils/lens-provider";
 
 import type { ExtendedPage } from "@types";
 import type { AppProps } from "next/app";
