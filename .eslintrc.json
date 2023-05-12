@@ -1,5 +1,5 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:tailwindcss/recommended", "plugin:storybook/recommended"],
+  "extends": ["next/core-web-vitals", "plugin:tailwindcss/recommended"],
   "plugins": ["import", "simple-import-sort", "@typescript-eslint", "unicorn"],
   "rules": {
     "import/prefer-default-export": "off",
