@@ -6,7 +6,7 @@ const CoursesPage = () => {
   return (
     <>
       <h1 className="mb-6 text-3xl font-bold underline decoration-primary">
-        Learn something new 🚀
+        Learn with your frens 🚀
       </h1>
       <div className="flex gap-10">
         <CourseCatalog className="flex-1" />

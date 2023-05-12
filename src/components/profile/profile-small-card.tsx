@@ -7,15 +7,14 @@ interface Profile {
   description: string;
 }
 
-interface ProfileCardProps {
+interface ProfileSmallCardProps {
   profile: Profile;
 }
 
-export const ProfileSmallCard = ({ profile }: ProfileCardProps) => {
+export const ProfileSmallCard = ({ profile }: ProfileSmallCardProps) => {
   return (
     <Link
       href={`/profiles/${profile.handle}`}
-      key={profile.handle}
       className="rounded-box flex w-full items-center gap-4 bg-base-200 px-3 py-2 hover:bg-base-300"
     >
       <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full">

@@ -55,7 +55,7 @@ const CreateCourseForm = () => {
       const id = receipt.events?.find((e) => e.event === "CourseCreated")?.args
         ?.courseId;
 
-      // router.push(`/courses/${id}`);
+      router.push(`/courses/${id}`);
     },
   });
 

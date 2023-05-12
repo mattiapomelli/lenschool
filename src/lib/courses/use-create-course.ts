@@ -63,6 +63,9 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
       if (!dataUri) return;
 
       const tx = await knowledgeLayerCourse.createCourse(price, dataUri);
+      const receipt = await tx.wait();
+      const id = receipt.events?.find((e) => e.event === "CourseCreated")?.args
+        ?.courseId;
 
       const result = await create({
         content:
@@ -81,16 +84,9 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
               {
                 // displayType: NftAttributeDisplayType.String,
                 // @ts-ignore
-                displayType: "String",
-                value: imageUrl,
-                traitType: "Image",
-              },
-              {
-                // displayType: NftAttributeDisplayType.String,
-                // @ts-ignore
-                displayType: "String",
-                value: videoPlaybackId,
-                traitType: "VideoPlaybackId",
+                displayType: "Number",
+                value: id,
+                traitType: "CourseId",
               },
             ],
           },
@@ -98,7 +94,7 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
         },
       });
 
-      return await tx.wait();
+      return receipt;
     },
     {
       onSuccess: options?.onSuccess,
