@@ -55,26 +55,29 @@ const CreateCourseForm = () => {
       const id = receipt.events?.find((e) => e.event === "CourseCreated")?.args
         ?.courseId;
 
-      router.push(`/courses/${id}`);
+      // router.push(`/courses/${id}`);
     },
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    if (!asset) {
-      await uploadVideo();
-    } else {
-      if (!asset.playbackId || !image) return;
-      const { title, description, price, keywords } = data;
+    // if (!asset) {
+    //   await uploadVideo();
+    // } else {
+    // if (!asset.playbackId || !image) return;
+    // if (!asset.playbackId || !image) return;
+    const { title, description, price, keywords } = data;
 
-      createCourse({
-        title,
-        description,
-        price: ethers.utils.parseEther(price),
-        image,
-        videoPlaybackId: asset.playbackId,
-        keywords: keywords.split(",").map((value) => value.trim()),
-      });
-    }
+    createCourse({
+      title,
+      description,
+      price: ethers.utils.parseEther(price),
+      // image,
+      image: new File([], ""),
+      // videoPlaybackId: asset.plsaybackId,
+      videoPlaybackId: "1806vd0wgt1rmgmo",
+      keywords: keywords.split(",").map((value) => value.trim()),
+    });
+    // }
   });
 
   return (
