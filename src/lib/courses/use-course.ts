@@ -14,7 +14,7 @@ export const useCourse = (pubId: string) => {
   });
 
   const query = useQuery<CourseWithPublication | undefined>(
-    ["course", publicationId],
+    ["course", pubId],
     async () => {
       if (!knowledgeLayerCourse || !publication) return;
 
