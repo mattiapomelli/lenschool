@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 
 import type { CourseWithPublication } from "@lib/courses/types";
