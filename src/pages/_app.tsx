@@ -1,6 +1,11 @@
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
+import {
+  LivepeerConfig,
+  createReactClient,
+  studioProvider,
+} from "@livepeer/react";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { DefaultSeo } from "next-seo";
 import { ThemeProvider } from "next-themes";
@@ -37,6 +42,12 @@ const client = createClient({
   persister: null,
 });
 
+const livePeerClient = createReactClient({
+  provider: studioProvider({
+    apiKey: env.NEXT_PUBLIC_LIVEPEER_API_KEY || "",
+  }),
+});
+
 function MyApp({ Component, pageProps }: AppProps) {
   const getLayout =
     (Component as ExtendedPage).getLayout ||
@@ -45,10 +56,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={client}>
       <RainbowKitProvider chains={chains}>
-        <ThemeProvider>
-          <DefaultSeo {...SEO} />
-          {getLayout(<Component {...pageProps} />)}
-        </ThemeProvider>
+        <LivepeerConfig client={livePeerClient}>
+          <ThemeProvider>
+            <DefaultSeo {...SEO} />
+            {getLayout(<Component {...pageProps} />)}
+          </ThemeProvider>
+        </LivepeerConfig>
       </RainbowKitProvider>
     </WagmiConfig>
   );

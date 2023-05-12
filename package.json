@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.3",
     "@heroicons/react": "^2.0.18",
+    "@livepeer/react": "^2.4.4",
     "@metamask/jazzicon": "^2.0.0",
     "@radix-ui/react-dialog": "^1.0.0",
     "@radix-ui/react-tooltip": "^1.0.0",
