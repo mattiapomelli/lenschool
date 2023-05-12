@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 
 import { Button } from "@components/basic/button";
 import { Tabs } from "@components/basic/tabs";
+import { CourseForum } from "@components/course/course-forum";
 import { CoursePlayer } from "@components/course/course-player";
 import { CourseStudentsList } from "@components/course/course-students-list";
 
@@ -21,10 +22,10 @@ const CourseInfo = ({ course }: { course: Course }) => {
       label: "Enrolled Students",
       content: <CourseStudentsList />,
     },
-    // {
-    //   label: "Created Courses",
-    //   content: <CreatedCourses user={userAddress} />,
-    // },
+    {
+      label: "Forum",
+      content: <CourseForum />,
+    },
   ];
 
   return (

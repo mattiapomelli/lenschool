@@ -30,6 +30,7 @@ export const Tabs = ({ items, className }: TabsProps) => {
                   "text-sm font-medium",
                   "py-2.5 px-4",
                   "focus:outline-none",
+                  "min-w-[100px]",
                   selected
                     ? "bg-primary text-primary-content shadow"
                     : "bg-base-300 hover:opacity-80",
@@ -41,7 +42,7 @@ export const Tabs = ({ items, className }: TabsProps) => {
           </Tab>
         ))}
       </Tab.List>
-      <Tab.Panels className="mt-4">
+      <Tab.Panels className="mt-8">
         {items.map((item) => (
           <Tab.Panel key={item.label.toString()}>{item.content}</Tab.Panel>
         ))}

@@ -53,7 +53,7 @@ const CourseStudentsListInner = () => {
 export const CourseStudentsList = ({ className }: { className?: string }) => {
   return (
     <div className={className}>
-      <h4 className="mb-5 mt-6 text-xl font-bold">
+      <h4 className="mb-5 text-xl font-bold">
         Meet and connect with your fellow learners
       </h4>
       <CourseStudentsListInner />
