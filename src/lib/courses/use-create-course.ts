@@ -46,7 +46,11 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
       if (!dataUri) return;
 
       const tx = await knowledgeLayerCourse.createCourse(price, dataUri);
-      return await tx.wait();
+      const receipt = await tx.wait();
+      const id = receipt.events?.find((e) => e.event === "CourseCreated")?.args
+        ?.courseId;
+
+      return receipt;
     },
     {
       onSuccess: options?.onSuccess,
