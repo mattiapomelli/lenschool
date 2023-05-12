@@ -5,6 +5,8 @@ import { useCourses } from "@lib/courses/use-courses";
 const CourseCatalogInner = () => {
   const { data: courses, isLoading } = useCourses();
 
+  console.log(courses);
+
   if (isLoading) {
     return (
       <div className="my-14 flex justify-center">

@@ -10,8 +10,6 @@ interface CourseCardProps {
 }
 
 export const CourseCard = ({ course }: CourseCardProps) => {
-  console.log("Course price: ", course.price);
-
   return (
     <Link
       href={`/courses/${course.id}`}

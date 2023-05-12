@@ -27,9 +27,7 @@ export const useCourses = () => {
       });
 
       const coursesStructs = await Promise.all(
-        courseIds.map((courseId) =>
-          knowledgeLayerCourse.courses(Number(courseId)),
-        ),
+        courseIds.map((courseId) => knowledgeLayerCourse.courses(courseId)),
       );
       const courses: Omit<Course, "metadata">[] = coursesStructs.map(
         ({ seller, price, dataUri }, index) => ({

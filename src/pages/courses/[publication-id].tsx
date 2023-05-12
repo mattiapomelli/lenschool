@@ -4,18 +4,20 @@ import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 
 import { Button } from "@components/basic/button";
+import { Spinner } from "@components/basic/spinner";
 import { Tabs } from "@components/basic/tabs";
 import { CourseForum } from "@components/course/course-forum";
 import { CoursePlayer } from "@components/course/course-player";
 import { CourseStudentsList } from "@components/course/course-students-list";
+import { useCourse } from "@lib/courses/use-course";
 
-import type { Course } from "@lib/courses/types";
+import type { CourseWithPublication } from "@lib/courses/types";
 
-const CourseInfo = ({ course }: { course: Course }) => {
+const CourseInfo = ({ course }: { course: CourseWithPublication }) => {
   const { address } = useAccount();
   const hasPurchasedCourse = true;
 
-  const onBuyCourse = async () => {};
+  // const onBuyCourse = async () => {};
 
   const items = [
     {
@@ -78,44 +80,27 @@ const CourseInfo = ({ course }: { course: Course }) => {
   );
 };
 
-const course: Course = {
-  id: 1,
-  seller: "0x8d960334c2EF30f425b395C1506Ef7c5783789F3",
-  dataUri: "QmcukPbbUN1YmxE5g8EnCjgkeUdV8LsKifnAo1t7iTSxdD",
-  price: ethers.utils.parseEther("0.0001"),
-  metadata: {
-    title: "Web3 Development 101",
-    description:
-      "This course will teach you the basics of web3 development. You will learn how to build a simple smart contract and how to interact with it using a web3 provider.",
-    // description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, velit rerum reprehenderit natus omnis eligendi iure amet fugit assumenda cumque id ad qui quos alias odit iusto provident. Nostrum accusamus quae iure quod maiores!',
-    imageUrl:
-      "https://yvgbeqzuvfqmewtltglq.supabase.co/storage/v1/object/public/public/smart-contract-dev-cover.png",
-    keywords: ["web3", "solidity"],
-    videoPlaybackId: "1806vd0wgt1rmgmo",
-  },
-};
+const CoursePageInner = ({ publicationId }: { publicationId: string }) => {
+  const { data: course, isLoading } = useCourse(publicationId);
 
-const CoursePageInner = ({ courseId }: { courseId: number }) => {
-  // const { data: course } = useCourse(courseId);
-
-  // if (!course) {
-  //   return (
-  //     <div className="flex justify-center">
-  //       <Spinner />
-  //     </div>
-  //   );
-  // }
+  if (isLoading || !course) {
+    return (
+      <div className="flex justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return <CourseInfo course={course} />;
 };
 
 const CoursePage = () => {
   const router = useRouter();
-  const courseId = router.query.id?.toString();
+  const publicationId = router.query["publication-id"]?.toString();
 
-  if (!courseId) return null;
+  if (!publicationId) return null;
 
-  return <CoursePageInner courseId={Number(courseId)} />;
+  return <CoursePageInner publicationId={publicationId} />;
 };
 
 export default CoursePage;
