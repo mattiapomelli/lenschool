@@ -8,7 +8,7 @@ export const DefaultLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-      <main className="flex-1 pb-20">
+      <main className="flex-1 pb-20 pt-8">
         <Container>{children}</Container>
       </main>
       <Footer />

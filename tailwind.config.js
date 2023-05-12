@@ -15,6 +15,9 @@ module.exports = {
       colors: {
         "base-content-neutral": "hsl(var(--bc) / 0.6)",
       },
+      gridTemplateColumns: {
+        autofill: "repeat(auto-fill, minmax(18rem, 1fr))",
+      },
     },
   },
   plugins: [
