@@ -1,17 +1,19 @@
-import React from "react";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import Link from "next/link";
 import { Menu } from "@headlessui/react";
-import { getPictureURL } from "../../utils/ipfs-to-gateway-url";
-import { InjectedConnector } from "wagmi/connectors/injected";
+import {
+  useActiveProfile,
+  useWalletLogin,
+  useWalletLogout,
+  useApolloClient,
+} from "@lens-protocol/react-web";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 import { useAccount, useConnect, useDisconnect, useSwitchNetwork } from "wagmi";
-import { useActiveProfile, useWalletLogin, useWalletLogout, useApolloClient } from "@lens-protocol/react-web";
+import { InjectedConnector } from "wagmi/connectors/injected";
 
-const isProd = false;
+import { getPictureURL } from "../../utils/ipfs-to-gateway-url";
 
 export const LensLogin = () => {
-  const router = useRouter();
   const { switchNetwork } = useSwitchNetwork();
   const { data: activeProfile } = useActiveProfile();
   const { execute: login } = useWalletLogin();
@@ -19,9 +21,13 @@ export const LensLogin = () => {
   const { isConnected } = useAccount();
   const { connectAsync } = useConnect({
     connector: new InjectedConnector(),
-    onSuccess(data) {
+    onSuccess() {
       if (switchNetwork) {
-        switchNetwork(process.env.NEXT_PUBLIC_CHAIN?.toLowerCase() != "testnet" ? 137 : 80001)
+        switchNetwork(
+          process.env.NEXT_PUBLIC_CHAIN?.toLowerCase() != "testnet"
+            ? 137
+            : 80001,
+        );
       }
     },
   });
@@ -51,29 +57,29 @@ export const LensLogin = () => {
     <div>
       <div className="flex items-center">
         {activeProfile ? (
-          <Menu as="div" className="relative text-lime-900 text-xs">
-            <Menu.Button className="flex items-center rounded-md cursor-pointer bg-lime-300 py-1 px-2 space-x-1">
+          <Menu as="div" className="relative text-xs text-lime-900">
+            <Menu.Button className="flex cursor-pointer items-center space-x-1 rounded-md bg-lime-300 px-2 py-1">
               <Image
                 src={getPictureURL(activeProfile)}
                 alt={activeProfile.handle}
                 width={25}
                 height={25}
-                className="rounded-full mr-3"
+                className="mr-3 rounded-full"
               />
               {activeProfile.handle}
             </Menu.Button>
-            <Menu.Items className="absolute w-full space-y-1 p-0.5 text-sm z-50 mt-1 border rounded-md text-gray-900 bg-white">
+            <Menu.Items className="absolute z-50 mt-1 w-full space-y-1 rounded-md border bg-white p-0.5 text-sm text-gray-900">
               <Menu.Item>
                 <Link
                   href={"/profile"}
-                  className="block w-full p-1.5 hover:cursor-pointer hover:bg-lime-300 hover:text-lime-900 rounded-md"
+                  className="block w-full rounded-md p-1.5 hover:cursor-pointer hover:bg-lime-300 hover:text-lime-900"
                 >
                   Profile
                 </Link>
               </Menu.Item>
               <Menu.Item>
                 <div
-                  className="w-full p-1.5 hover:cursor-pointer hover:bg-lime-300 hover:text-lime-900 rounded-md"
+                  className="w-full rounded-md p-1.5 hover:cursor-pointer hover:bg-lime-300 hover:text-lime-900"
                   onClick={signOut}
                 >
                   Disconnect
@@ -83,10 +89,16 @@ export const LensLogin = () => {
           </Menu>
         ) : (
           <button
-            className="flex items-center rounded-md cursor-pointer bg-lime-500 p-2 text-lime-50 text-xs space-x-1"
+            className="flex cursor-pointer items-center space-x-1 rounded-md bg-lime-500 p-2 text-xs text-lime-50"
             onClick={signIn}
           >
-            <svg width="25.5" height="16.5" viewBox="13 11.5 40 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="25.5"
+              height="16.5"
+              viewBox="13 11.5 40 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 fillRule="evenodd"
                 clipRule="evenodd"
