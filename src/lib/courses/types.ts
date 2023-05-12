@@ -1,3 +1,5 @@
+import { Post } from "@lens-protocol/react-web";
+
 import type { BigNumber } from "ethers";
 
 export interface Course {
@@ -14,4 +16,8 @@ export interface CourseMetadata {
   imageUrl: string;
   keywords: string[];
   videoPlaybackId: string;
+}
+
+export interface CourseWithPublication extends Course {
+  publication: Post;
 }

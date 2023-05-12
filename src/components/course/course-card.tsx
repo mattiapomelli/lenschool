@@ -2,14 +2,16 @@ import { ethers } from "ethers";
 import Image from "next/image";
 import Link from "next/link";
 
-import type { Course } from "@lib/courses/types";
+import type { CourseWithPublication } from "@lib/courses/types";
 
 interface CourseCardProps {
-  course: Course;
+  course: CourseWithPublication;
   linkToPage?: boolean;
 }
 
 export const CourseCard = ({ course }: CourseCardProps) => {
+  console.log("Course price: ", course.price);
+
   return (
     <Link
       href={`/courses/${course.id}`}
