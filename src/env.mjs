@@ -10,7 +10,7 @@ export const env = createEnv({
     NEXT_PUBLIC_CHAIN: z.union([
       z.literal("localhost"),
       z.literal("testnet"),
-      literal("mainnet"),
+      z.literal("mainnet"),
     ]),
     NEXT_PUBLIC_ALCHEMY_API_KEY: z.string().min(1),
     NEXT_PUBLIC_LIVEPEER_API_KEY: z.string().min(1),
