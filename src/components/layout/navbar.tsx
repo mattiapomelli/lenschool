@@ -1,7 +1,7 @@
 import { Transition } from "@headlessui/react";
 import { useAccount } from "wagmi";
-
 import { Logo } from "@components/basic/logo";
+import { LensLogin } from "./lens-login";
 import { ThemeToggle } from "@components/basic/theme-toggle";
 import { WalletStatus } from "@components/wallet/wallet-status";
 import { useTransitionControl } from "@hooks/use-transition-control";
@@ -28,7 +28,7 @@ export const Navbar = () => {
         >
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <WalletStatus />
+            <LensLogin />
           </div>
         </Transition>
       </Container>

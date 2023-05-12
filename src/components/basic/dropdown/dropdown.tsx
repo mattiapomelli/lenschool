@@ -25,7 +25,7 @@ export const WrappedLink = forwardRef<HTMLAnchorElement, WrappedLinkProps>(
     const { href, children, ...rest } = props;
 
     return (
-      <Link href={href}>
+      <Link href={href} legacyBehavior>
         <a ref={ref} {...rest}>
           {children}
         </a>

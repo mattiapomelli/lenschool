@@ -8,11 +8,9 @@ export interface LogoProps {
 
 export const Logo = ({ href = "/", className }: LogoProps) => {
   return (
-    <Link href={href}>
-      <a className="flex items-center gap-3">
+    <Link href={href} className="flex items-center gap-3">
         <span className="block h-7 w-7 rounded-full bg-primary" />
         <span className={cx("font-black text-xl", className)}>Lenschool</span>
-      </a>
     </Link>
   );
 };

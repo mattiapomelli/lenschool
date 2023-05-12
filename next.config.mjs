@@ -6,6 +6,7 @@ import "./src/env.mjs";
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  transpilePackages: ['@lens-protocol'],
   images: {
     remotePatterns: [
       {

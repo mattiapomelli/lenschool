@@ -7,6 +7,8 @@ import {
   studioProvider,
 } from "@livepeer/react";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { LensProvider } from "@lens-protocol/react-web";
+import { lensConfig } from "../utils/lens-provider";
 import { DefaultSeo } from "next-seo";
 import { ThemeProvider } from "next-themes";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
@@ -56,12 +58,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={client}>
       <RainbowKitProvider chains={chains}>
-        <LivepeerConfig client={livePeerClient}>
-          <ThemeProvider>
-            <DefaultSeo {...SEO} />
-            {getLayout(<Component {...pageProps} />)}
-          </ThemeProvider>
-        </LivepeerConfig>
+        <LensProvider config={lensConfig}>
+          <LivepeerConfig client={livePeerClient}>
+            <ThemeProvider>
+              <DefaultSeo {...SEO} />
+              {getLayout(<Component {...pageProps} />)}
+            </ThemeProvider>
+          </LivepeerConfig>
+        </LensProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );
