@@ -16,6 +16,7 @@
     "@radix-ui/react-dialog": "^1.0.0",
     "@radix-ui/react-tooltip": "^1.0.0",
     "@rainbow-me/rainbowkit": "^0.12.7",
+    "@supabase/supabase-js": "^2.21.0",
     "@t3-oss/env-nextjs": "^0.3.1",
     "classnames": "^2.3.2",
     "ethers": "^5.7.1",
