@@ -1,4 +1,9 @@
-import { Post, Profile, usePublications } from "@lens-protocol/react-web";
+import {
+  CollectablePost,
+  Post,
+  Profile,
+  usePublications,
+} from "@lens-protocol/react-web";
 import { useQuery } from "wagmi";
 
 import { LENSCHOOL_TAG } from "@constants/lens";
@@ -64,7 +69,7 @@ export const useCreatedCourses = (profile: Profile) => {
       );
 
       const coursesWithPublication: CourseWithPublication[] = (
-        filteredPublications as Post[]
+        filteredPublications as CollectablePost[]
       ).map((publication, index) => ({
         ...courses[index],
         metadata: coursesMetadata[index],

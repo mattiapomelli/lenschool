@@ -1,4 +1,9 @@
-import { Post, publicationId, usePublication } from "@lens-protocol/react-web";
+import {
+  CollectablePost,
+  Post,
+  publicationId,
+  usePublication,
+} from "@lens-protocol/react-web";
 import { useQuery } from "wagmi";
 
 import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
@@ -38,7 +43,7 @@ export const useCourse = (pubId: string) => {
       }
 
       const courseId = Number(
-        (postPublication as Post).metadata.attributes.find(
+        (postPublication as CollectablePost).metadata.attributes.find(
           (attr) => attr.traitType === "CourseId",
         )?.value,
       );
@@ -59,7 +64,7 @@ export const useCourse = (pubId: string) => {
       const courseWithPublication: CourseWithPublicationAndReferral = {
         ...course,
         metadata,
-        publication: postPublication,
+        publication: postPublication as CollectablePost,
         isReferral,
       };
 

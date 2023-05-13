@@ -1,4 +1,4 @@
-import { Post } from "@lens-protocol/react-web";
+import { CollectablePost } from "@lens-protocol/react-web";
 
 import type { BigNumber } from "ethers";
 
@@ -19,7 +19,7 @@ export interface CourseMetadata {
 }
 
 export interface CourseWithPublication extends Course {
-  publication: Post;
+  publication: CollectablePost;
 }
 
 export interface CourseWithPublicationAndReferral
