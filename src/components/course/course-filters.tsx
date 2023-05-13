@@ -1,46 +1,29 @@
-import { FormEvent } from "react";
+import { CourseTag } from "./course-tag";
 
-export const CourseFilters = ({ setTopic }: { setTopic: Function }) => {
-  const handleSetTopic = async (event: FormEvent, topic: string) => {
-    event.preventDefault();
-    setTopic(topic);
-  };
+interface CourseFiltersProps {
+  setTopic: (topic: string) => void;
+  topic: string;
+}
 
+const topics = ["AI", "Arts and Humanities", "Web3", "Data Science", "Health"];
+
+export const CourseFilters = ({
+  setTopic,
+  topic: selectedTopic,
+}: CourseFiltersProps) => {
   return (
-    <div className="flex space-x-2">
+    <div className="mb-3 flex flex-wrap gap-2">
+      {topics.map((topic) => (
+        <CourseTag
+          key={topic}
+          onClick={setTopic}
+          topic={topic}
+          selected={topic === selectedTopic}
+        />
+      ))}
       <div
-        onClick={(e) => handleSetTopic(e, "AI")}
-        className="cursor-pointer rounded bg-green-200 text-sm text-green-900 py-1 px-3 mb-3"
-      >
-        #AI
-      </div>
-      <div
-        onClick={(e) => handleSetTopic(e, "Arts")}
-        className="cursor-pointer rounded bg-red-200 text-sm text-red-900 py-1 px-3 mb-3"
-      >
-        #Arts and Humanities
-      </div>
-      <div
-        onClick={(e) => handleSetTopic(e, "Web3")}
-        className="cursor-pointer rounded bg-blue-200 text-sm text-blue-900 py-1 px-3 mb-3"
-      >
-        #Web3
-      </div>
-      <div
-        onClick={(e) => handleSetTopic(e, "Data Science")}
-        className="cursor-pointer rounded bg-orange-200 text-sm text-orange-900 py-1 px-3 mb-3"
-      >
-        #Data Science
-      </div>
-      <div
-        onClick={(e) => handleSetTopic(e, "Health")}
-        className="cursor-pointer rounded bg-blue-200 text-sm text-blue-900 py-1 px-3 mb-3"
-      >
-        #Health
-      </div>
-      <div
-        onClick={(e) => handleSetTopic(e, "")}
-        className="cursor-pointer rounded bg-gray-200 text-sm text-gray-900 py-1 px-3 mb-3"
+        onClick={() => setTopic("")}
+        className="cursor-pointer rounded bg-gray-300 px-3 py-1 text-sm text-gray-900"
       >
         Clear
       </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Spinner } from "@components/basic/spinner";
 import { CourseCard } from "@components/course/course-card";
@@ -7,22 +7,12 @@ import { useCourses } from "@lib/courses/use-courses";
 
 const CourseCatalogInner = ({ topic }: { topic: string }) => {
   const { data: courses, isLoading } = useCourses();
-  const [filteredCourses, setFilteredCourses] = useState(courses);
 
-  useEffect(() => {
-    console.log("Topic: ", topic);
-    if (!topic) {
-      setFilteredCourses(courses);
-      return;
-    }
+  console.log("Topic: ", topic);
 
-    const filtered = courses?.filter((course) =>
-      course.metadata.keywords.includes(topic),
-    );
-    setFilteredCourses(filtered);
-  }, [topic, courses]);
-
-  // console.log(courses);
+  const filteredCourses = topic
+    ? courses?.filter((course) => course.metadata.keywords.includes(topic))
+    : courses;
 
   if (isLoading) {
     return (
@@ -52,9 +42,9 @@ export const CourseCatalog = ({ className }: { className?: string }) => {
   const [topic, setTopic] = useState("");
   return (
     <div className={className}>
-      <div className="flex mb-4 mt-2 space-x-3">
+      <div className="mb-4 mt-2 flex space-x-3">
         <h4 className="text-xl font-bold">Courses</h4>
-        <CourseFilters setTopic={setTopic} />
+        <CourseFilters setTopic={setTopic} topic={topic} />
       </div>
       <CourseCatalogInner topic={topic} />
     </div>

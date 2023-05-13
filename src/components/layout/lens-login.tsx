@@ -8,8 +8,17 @@ import {
 import Image from "next/legacy/image";
 import Link from "next/link";
 import React from "react";
-import { useAccount, useConnect, useDisconnect, useSwitchNetwork } from "wagmi";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useNetwork,
+  useSwitchNetwork,
+} from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
+
+import { Button } from "@components/basic/button";
+import { CHAIN } from "@constants/chains";
 
 import { getPictureURL } from "../../utils/ipfs-to-gateway-url";
 
@@ -33,6 +42,7 @@ export const LensLogin = () => {
   });
   const { disconnectAsync } = useDisconnect();
   const { cache } = useApolloClient();
+  const { chain } = useNetwork();
 
   const signIn = async () => {
     if (isConnected) {
@@ -52,6 +62,19 @@ export const LensLogin = () => {
     await logout();
     await cache.reset();
   };
+
+  if (chain?.unsupported) {
+    return (
+      <Button
+        size="sm"
+        color="error"
+        onClick={() => switchNetwork?.(CHAIN.id)}
+        type="button"
+      >
+        Switch to {CHAIN.name}
+      </Button>
+    );
+  }
 
   return (
     <div>
