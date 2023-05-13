@@ -21,15 +21,22 @@ export const useCreatedCourses = (profile: Profile) => {
     // },
   });
 
+  // console.log("Publication: ", publications);
+
   const query = useQuery<CourseWithPublication[]>(
     ["created-courses", profile.handle],
     async () => {
       if (!knowledgeLayerCourse || !publications) return [];
 
-      const filteredPublications = (publications as Post[]).filter(
-        (publication) =>
-          publication.metadata.content?.includes(`#${LENSCHOOL_TAG}`),
+      const postPublications = publications.filter(
+        (publication) => publication.__typename === "Post",
+      ) as Post[];
+
+      const filteredPublications = postPublications.filter((publication) =>
+        publication.metadata.content?.includes(`#${LENSCHOOL_TAG}`),
       );
+
+      // console.log("Filtered Publication: ", filteredPublications);
 
       const courseIds = (filteredPublications as Post[]).map((publication) => {
         return Number(
