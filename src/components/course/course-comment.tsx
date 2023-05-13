@@ -4,6 +4,8 @@ import Image from "next/legacy/image";
 
 import { getPictureURL } from "@utils/ipfs-to-gateway-url";
 
+import { ReplyCommentForm } from "./reply-comment-form";
+
 interface CourseCommentCardProps {
   comment: Comment;
   className?: string;
@@ -46,6 +48,7 @@ export const CourseComment = ({ comment }: CourseCommentProps) => {
       {comment.firstComment && (
         <CourseCommentCard comment={comment.firstComment} className="ml-20" />
       )}
+      <ReplyCommentForm pubId={comment.id} />
     </div>
   );
 };

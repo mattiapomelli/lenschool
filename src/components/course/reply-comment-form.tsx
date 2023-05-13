@@ -10,30 +10,29 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@components/basic/button";
-import { Label } from "@components/basic/label";
-import { TextArea } from "@components/basic/textarea";
+import { Input } from "@components/basic/input";
 import { upload } from "@utils/upload";
 
-interface CreateCommentFields {
+interface ReplyCommentFields {
   content: string;
 }
 
-interface CreateCommentFormInnerProps {
+interface ReplyCommentFormInnerProps {
   profile: ProfileOwnedByMe;
   pubId: string;
   onSuccess?: () => void;
 }
 
-export const CreateCommentFormInner = ({
+export const ReplyCommentFormInner = ({
   profile,
   pubId,
-}: CreateCommentFormInnerProps) => {
+}: ReplyCommentFormInnerProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<CreateCommentFields>();
+  } = useForm<ReplyCommentFields>();
 
   const { execute: createComment, isPending } = useCreateComment({
     publisher: profile,
@@ -57,39 +56,36 @@ export const CreateCommentFormInner = ({
   });
 
   return (
-    <form className="flex flex-col gap-2" onSubmit={onSubmit}>
-      <TextArea
-        block
+    <form className="flex gap-2" onSubmit={onSubmit}>
+      <Input
         {...register("content", { required: "Content is required" })}
         error={errors.content?.message}
         className="flex-1"
-        rows={4}
       />
       <div className="flex justify-end">
         <Button type="submit" loading={isPending} disabled={isPending}>
-          Submit
+          Reply
         </Button>
       </div>
     </form>
   );
 };
 
-interface CreateCommentFormProps {
+interface ReplyCommentFormProps {
   pubId: string;
   onSuccess?: () => void;
 }
 
-export const CreateCommentForm = ({
+export const ReplyCommentForm = ({
   pubId,
   onSuccess,
-}: CreateCommentFormProps) => {
+}: ReplyCommentFormProps) => {
   const { data: profile } = useActiveProfile();
 
   return (
-    <div className="mt-4">
-      <Label className="mb-1 text-base">Start new discussion</Label>
+    <div className="mt-1">
       {profile ? (
-        <CreateCommentFormInner
+        <ReplyCommentFormInner
           pubId={pubId}
           profile={profile}
           onSuccess={onSuccess}

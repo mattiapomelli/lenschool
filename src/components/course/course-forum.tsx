@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+
 import { Spinner } from "@components/basic/spinner";
 import { useCourseComments } from "@lib/courses/use-course-comments";
 
@@ -23,9 +25,12 @@ const CourseForumInner = ({ publicationId }: { publicationId: string }) => {
     );
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-10">
       {comments?.map((comment) => (
-        <CourseComment key={comment.id} comment={comment} />
+        <Fragment key={comment.id}>
+          <CourseComment key={comment.id} comment={comment} />
+          {/* <div className="h-px bg-base-300" /> */}
+        </Fragment>
       ))}
       <CreateCommentForm pubId={publicationId} />
     </div>
