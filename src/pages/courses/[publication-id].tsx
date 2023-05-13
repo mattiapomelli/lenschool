@@ -4,11 +4,12 @@ import {
   useCollect,
   useCreateMirror,
 } from "@lens-protocol/react-web";
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent } from "react";
+import { useAccount, erc20ABI } from "wagmi";
 
 import { Button } from "@components/basic/button";
 import { CopyButton } from "@components/basic/copy-button";
@@ -35,6 +36,7 @@ const CourseInfo = ({
   const { execute: mirror } = useCreateMirror({
     publisher: activeProfile as ProfileOwnedByMeFragment,
   });
+  const { connector: activeConnector } = useAccount();
 
   const hasPurchasedCourse = course.publication.hasCollectedByMe;
   // @ts-ignore
@@ -60,6 +62,26 @@ const CourseInfo = ({
   const handleCollect = async (event: FormEvent) => {
     console.log("collecting post");
     event.preventDefault();
+
+    console.log("approving");
+
+    const address = "0x9c3c9283d3e44854697cd22d3faa240cfb032889"; // WMATIC
+
+    if (activeConnector) {
+      console.log(activeConnector);
+      const signer = await activeConnector.getSigner();
+      console.log(signer);
+      const erc20 = new Contract(address, erc20ABI, signer);
+      const tx = await erc20
+        .connect(signer)
+        .approve(
+          course.publication.collectPolicy.contractAddress,
+          ethers.constants.MaxUint256,
+        );
+      await tx.wait();
+      console.log(tx);
+    }
+
     collect().then(console.log).catch(console.log);
   };
 

@@ -1,4 +1,5 @@
 import {
+  CollectablePost,
   Post,
   Profile,
   useCollectedPublications,
@@ -55,7 +56,7 @@ export const useEnrolledCourses = (profile: Profile) => {
       );
 
       const coursesWithPublication: CourseWithPublication[] = (
-        filteredPublications as Post[]
+        filteredPublications as CollectablePost[]
       ).map((publication, index) => ({
         ...courses[index],
         metadata: coursesMetadata[index],
