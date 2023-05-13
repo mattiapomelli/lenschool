@@ -12,6 +12,7 @@ export const useCourses = () => {
 
   const { data: publications, loading } = useSearchPublications({
     query: LENSCHOOL_TAG,
+    limit: 50,
   });
 
   console.log("publications: ", publications);
