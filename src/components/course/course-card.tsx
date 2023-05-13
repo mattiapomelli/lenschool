@@ -32,7 +32,8 @@ export const CourseCard = ({ course }: CourseCardProps) => {
 
       <div className="mt-1 flex items-center gap-4">
         <span>
-          By: <span className="font-bold">mattia.lens</span>
+          By:{" "}
+          <span className="font-bold">{course.publication.profile.handle}</span>
         </span>
         <span>
           Price:{" "}

@@ -7,8 +7,6 @@ import { CreateCommentForm } from "./create-comment-form";
 const CourseForumInner = ({ publicationId }: { publicationId: string }) => {
   const { data: comments, loading } = useCourseComments(publicationId);
 
-  console.log("Comments: ", comments);
-
   if (loading) {
     return (
       <div className="my-14 flex justify-center">
@@ -29,7 +27,7 @@ const CourseForumInner = ({ publicationId }: { publicationId: string }) => {
       {comments?.map((comment) => (
         <CourseComment key={comment.id} comment={comment} />
       ))}
-      <CreateCommentForm />
+      <CreateCommentForm pubId={publicationId} />
     </div>
   );
 };

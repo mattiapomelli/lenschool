@@ -24,7 +24,7 @@ const CourseInfo = ({ course }: { course: CourseWithPublication }) => {
       content: <CourseStudentsList publicationId={course.publication.id} />,
     },
     {
-      label: "Forum",
+      label: "Discussions",
       content: <CourseForum publicationId={course.publication.id} />,
     },
   ];
