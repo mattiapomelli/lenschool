@@ -2,10 +2,6 @@ import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
 export const env = createEnv({
-  server: {
-    NEXTAUTH_URL: z.string().url(),
-    NEXTAUTH_SECRET: z.string().min(1),
-  },
   client: {
     NEXT_PUBLIC_CHAIN: z.union([
       z.literal("localhost"),
@@ -19,9 +15,6 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
   },
   runtimeEnv: {
-    // SERVER
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     // CLIENT
     NEXT_PUBLIC_CHAIN: process.env.NEXT_PUBLIC_CHAIN,
     NEXT_PUBLIC_ALCHEMY_API_KEY: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
