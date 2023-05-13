@@ -37,6 +37,7 @@ const CourseInfo = ({
   });
 
   const hasPurchasedCourse = course.publication.hasCollectedByMe;
+  // @ts-ignore
   const referralMirrorId = course.publication.mirrors.findLast((mirror) =>
     mirror.includes(activeProfile?.id + "-"),
   );
