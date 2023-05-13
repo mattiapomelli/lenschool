@@ -1,9 +1,14 @@
+import {
+  ProfileOwnedByMeFragment,
+  useActiveProfile,
+  useCollect,
+  useCreateMirror,
+} from "@lens-protocol/react-web";
 import { ethers } from "ethers";
-import { FormEvent, useState } from "react";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useAccount } from "wagmi";
+import { FormEvent } from "react";
 
 import { Button } from "@components/basic/button";
 import { CopyButton } from "@components/basic/copy-button";
@@ -12,17 +17,8 @@ import { Tabs } from "@components/basic/tabs";
 import { CourseForum } from "@components/course/course-forum";
 import { CoursePlayer } from "@components/course/course-player";
 import { CourseStudentsList } from "@components/course/course-students-list";
-import {
-  ProfileId,
-  ProfileOwnedByMeFragment,
-  useActiveProfile,
-  useCollect,
-  useCreateMirror,
-  usePublications,
-} from "@lens-protocol/react-web";
 import { useCourse } from "@lib/courses/use-course";
 import { getPictureURL } from "@utils/ipfs-to-gateway-url";
-import { copyToClipboard } from "@utils/copy-to-clipboard";
 
 import type { CourseWithPublicationAndReferral } from "@lib/courses/types";
 
@@ -31,9 +27,7 @@ const CourseInfo = ({
 }: {
   course: CourseWithPublicationAndReferral;
 }) => {
-  const router = useRouter();
-  const { address } = useAccount();
-  const { data: activeProfile, loading } = useActiveProfile();
+  const { data: activeProfile } = useActiveProfile();
   const { execute: collect } = useCollect({
     collector: activeProfile as ProfileOwnedByMeFragment,
     publication: course.publication,
