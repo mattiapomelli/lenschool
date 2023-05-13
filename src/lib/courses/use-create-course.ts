@@ -7,6 +7,7 @@ import {
   Amount,
   useCurrencies,
   Erc20,
+  // NftAttributeDisplayType,
 } from "@lens-protocol/react-web";
 import { ethers } from "ethers";
 import { useMutation } from "wagmi";
@@ -69,8 +70,9 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
 
       const tx = await knowledgeLayerCourse.createCourse(price, dataUri);
       const receipt = await tx.wait();
-      const id = receipt.events?.find((e) => e.event === "CourseCreated")?.args
-        ?.courseId;
+      const id: BigNumber = receipt.events?.find(
+        (e) => e.event === "CourseCreated",
+      )?.args?.courseId;
 
       await create({
         content:
@@ -95,10 +97,10 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
             description,
             attributes: [
               {
-                // displayType: NftAttributeDisplayType.String,
+                // displayType: NftAttributeDisplayType.Number,
                 // @ts-ignore
                 displayType: "Number",
-                value: id,
+                value: id.toNumber(),
                 traitType: "CourseId",
               },
             ],
