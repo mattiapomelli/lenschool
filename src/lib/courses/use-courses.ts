@@ -1,6 +1,7 @@
 import { Post, useSearchPublications } from "@lens-protocol/react-web";
 import { useQuery } from "wagmi";
 
+import { LENSCHOOL_TAG } from "@constants/lens";
 import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
 import { fetchFromIpfs } from "@utils/ipfs";
 
@@ -10,7 +11,7 @@ export const useCourses = () => {
   const knowledgeLayerCourse = useKnowledgeLayerCourse();
 
   const { data: publications, loading } = useSearchPublications({
-    query: "lenschooldev",
+    query: LENSCHOOL_TAG,
   });
 
   console.log("publications: ", publications);

@@ -5,6 +5,7 @@ import {
 } from "@lens-protocol/react-web";
 import { useQuery } from "wagmi";
 
+import { LENSCHOOL_TAG } from "@constants/lens";
 import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
 import { fetchFromIpfs } from "@utils/ipfs";
 
@@ -15,6 +16,7 @@ export const useEnrolledCourses = (profile: Profile) => {
 
   const { data: publications, loading } = useCollectedPublications({
     walletAddress: profile.ownedBy,
+    limit: 50,
   });
 
   const query = useQuery<CourseWithPublication[]>(
@@ -24,7 +26,7 @@ export const useEnrolledCourses = (profile: Profile) => {
 
       const filteredPublications = (publications as Post[]).filter(
         (publication) =>
-          publication.metadata.content?.includes("#lenschooldev"),
+          publication.metadata.content?.includes(`#${LENSCHOOL_TAG}`),
       );
 
       const courseIds = (filteredPublications as Post[]).map((publication) => {

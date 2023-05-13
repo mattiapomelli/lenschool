@@ -1,6 +1,7 @@
 import { Post, Profile, usePublications } from "@lens-protocol/react-web";
 import { useQuery } from "wagmi";
 
+import { LENSCHOOL_TAG } from "@constants/lens";
 import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
 import { fetchFromIpfs } from "@utils/ipfs";
 
@@ -15,7 +16,7 @@ export const useCreatedCourses = (profile: Profile) => {
     // TODO: Understand why this filter is not working
     // metadataFilter: {
     //   restrictPublicationTagsTo: {
-    //     oneOf: ["#lenschooldev"],
+    //     oneOf: [LENSCHOOL_TAG],
     //   },
     // },
   });
@@ -27,7 +28,7 @@ export const useCreatedCourses = (profile: Profile) => {
 
       const filteredPublications = (publications as Post[]).filter(
         (publication) =>
-          publication.metadata.content?.includes("#lenschooldev"),
+          publication.metadata.content?.includes(`#${LENSCHOOL_TAG}`),
       );
 
       const courseIds = (filteredPublications as Post[]).map((publication) => {

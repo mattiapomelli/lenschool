@@ -8,6 +8,7 @@ import {
 } from "@lens-protocol/react-web";
 import { useMutation } from "wagmi";
 
+import { LENSCHOOL_TAG } from "@constants/lens";
 import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
 import { uploadToIPFS } from "@utils/ipfs";
 import { upload } from "@utils/upload";
@@ -71,7 +72,7 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
           description +
           " " +
           keywords.map((k) => "#" + k).join(" ") +
-          " #lenschooldev",
+          ` ${LENSCHOOL_TAG}`,
         contentFocus: ContentFocus.TEXT,
         locale: "en",
         collect: {
