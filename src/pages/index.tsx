@@ -10,7 +10,7 @@ const CoursesPage = () => {
       </h1>
       <div className="flex flex-col gap-10 md:flex-row">
         <CourseCatalog className="flex-1" />
-        <div className="flex w-[300px] flex-col gap-6">
+        <div className="ms:w-[300px] flex flex-col gap-6">
           <TopTeachers className="w-full" />
           <TopLearners className="w-full" />
         </div>

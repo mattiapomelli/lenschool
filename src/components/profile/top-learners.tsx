@@ -29,7 +29,7 @@ const TopLearnersInner = () => {
     );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="grid grid-cols-autofill flex-col gap-4 md:flex">
       {learners?.map((profile) => (
         <ProfileSmallCard key={profile.handle} profile={profile} />
       ))}

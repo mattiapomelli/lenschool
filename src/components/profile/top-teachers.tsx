@@ -24,7 +24,7 @@ const TopTeachersInner = () => {
     );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="grid grid-cols-autofill flex-col gap-4 md:flex">
       {teachers?.map((teacher) => (
         <ProfileSmallCard key={teacher.handle} profile={teacher} />
       ))}
