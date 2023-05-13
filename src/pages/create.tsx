@@ -50,12 +50,11 @@ const CreateCourseForm = () => {
   const { mutate: createCourse, isLoading } = useCreateCourse({
     onSuccess(receipt) {
       reset();
-
       if (!receipt) return;
-      const id = receipt.events?.find((e) => e.event === "CourseCreated")?.args
-        ?.courseId;
+      // const id = receipt.events?.find((e) => e.event === "CourseCreated")?.args
+      //   ?.courseId;
 
-      router.push(`/courses/${id}`);
+      router.push(`/`);
     },
   });
 
