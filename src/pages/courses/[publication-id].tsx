@@ -13,9 +13,13 @@ import { CourseStudentsList } from "@components/course/course-students-list";
 import { useCourse } from "@lib/courses/use-course";
 import { getPictureURL } from "@utils/ipfs-to-gateway-url";
 
-import type { CourseWithPublication } from "@lib/courses/types";
+import type { CourseWithPublicationAndReferral } from "@lib/courses/types";
 
-const CourseInfo = ({ course }: { course: CourseWithPublication }) => {
+const CourseInfo = ({
+  course,
+}: {
+  course: CourseWithPublicationAndReferral;
+}) => {
   const { address } = useAccount();
   const hasPurchasedCourse = course.publication.hasCollectedByMe;
 
@@ -72,18 +76,22 @@ const CourseInfo = ({ course }: { course: CourseWithPublication }) => {
 
         <div className="flex w-full flex-1 flex-col items-center justify-center gap-4 p-10">
           {hasPurchasedCourse || course.seller === address ? (
-            <CoursePlayer course={course} className="w-full" />
+            <div className="flex w-full flex-col items-center gap-4">
+              <CoursePlayer course={course} className="w-full" />
+              {!course.isReferral && (
+                <Button color="neutral" size="lg">
+                  Refer course
+                </Button>
+              )}
+            </div>
           ) : (
             <div className="flex flex-col gap-2">
               <span className="text-center font-bold">
-                {ethers.utils.formatEther(course.price)} MATIC
+                {ethers.utils.formatEther(course.price)} wMATIC
               </span>
               <Button size="lg">Enroll now</Button>
             </div>
           )}
-          <Button color="neutral" size="lg">
-            Refer course
-          </Button>
         </div>
       </div>
 

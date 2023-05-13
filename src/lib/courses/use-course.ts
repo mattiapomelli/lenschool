@@ -4,7 +4,11 @@ import { useQuery } from "wagmi";
 import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
 import { fetchFromIpfs } from "@utils/ipfs";
 
-import { Course, CourseMetadata, CourseWithPublication } from "./types";
+import {
+  Course,
+  CourseMetadata,
+  CourseWithPublicationAndReferral,
+} from "./types";
 
 export const useCourse = (pubId: string) => {
   const knowledgeLayerCourse = useKnowledgeLayerCourse();
@@ -13,15 +17,28 @@ export const useCourse = (pubId: string) => {
     publicationId: publicationId(pubId),
   });
 
-  console.log("Publication: ", publication);
-
-  const query = useQuery<CourseWithPublication | undefined>(
+  const query = useQuery<CourseWithPublicationAndReferral | undefined>(
     ["course", pubId],
     async () => {
       if (!knowledgeLayerCourse || !publication) return;
 
+      let postPublication: Post | undefined;
+      let isReferral = false;
+
+      if (
+        publication.__typename === "Mirror" &&
+        publication.mirrorOf.__typename === "Post"
+      ) {
+        postPublication = publication.mirrorOf;
+        isReferral = true;
+      } else if (publication.__typename === "Post") {
+        postPublication = publication;
+      } else {
+        return;
+      }
+
       const courseId = Number(
-        (publication as Post).metadata.attributes.find(
+        (postPublication as Post).metadata.attributes.find(
           (attr) => attr.traitType === "CourseId",
         )?.value,
       );
@@ -39,10 +56,11 @@ export const useCourse = (pubId: string) => {
       /* Get course metadata */
       const metadata = await fetchFromIpfs<CourseMetadata>(dataUri);
 
-      const courseWithPublication: CourseWithPublication = {
+      const courseWithPublication: CourseWithPublicationAndReferral = {
         ...course,
         metadata,
-        publication: publication as Post,
+        publication: postPublication,
+        isReferral,
       };
 
       return courseWithPublication;

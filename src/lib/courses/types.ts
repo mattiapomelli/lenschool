@@ -21,3 +21,8 @@ export interface CourseMetadata {
 export interface CourseWithPublication extends Course {
   publication: Post;
 }
+
+export interface CourseWithPublicationAndReferral
+  extends CourseWithPublication {
+  isReferral: boolean;
+}
