@@ -25,9 +25,11 @@ const CourseInfo = ({ course }: { course: CourseWithPublication }) => {
     },
     {
       label: "Forum",
-      content: <CourseForum />,
+      content: <CourseForum publicationId={course.publication.id} />,
     },
   ];
+
+  // console.log("Course: ", course);
 
   return (
     <div>
