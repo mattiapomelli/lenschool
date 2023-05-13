@@ -1,17 +1,8 @@
-import { useEffect } from "react";
-
 import { CourseCatalog } from "@components/course/course-catalog";
 import { TopLearners } from "@components/profile/top-learners";
 import { TopTeachers } from "@components/profile/top-teachers";
 
 const CoursesPage = () => {
-  useEffect(() => {
-    console.log(
-      "Transactions in catalog: ",
-      localStorage.getItem("lens.development.transactions"),
-    );
-  }, []);
-
   return (
     <>
       <h1 className="mb-6 text-3xl font-bold underline decoration-primary">
