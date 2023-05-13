@@ -1,12 +1,12 @@
 import { Transition } from "@headlessui/react";
 import { useAccount } from "wagmi";
+
 import { Logo } from "@components/basic/logo";
-import { LensLogin } from "./lens-login";
 import { ThemeToggle } from "@components/basic/theme-toggle";
-import { WalletStatus } from "@components/wallet/wallet-status";
 import { useTransitionControl } from "@hooks/use-transition-control";
 
 import { Container } from "./container";
+import { LensLogin } from "./lens-login";
 
 export const Navbar = () => {
   const { isConnecting, isReconnecting } = useAccount();
