@@ -13,10 +13,15 @@ export default async function handler(
     console.log("Body: ", req.body);
 
     const { accessKey } = req.body;
-    const { userAddress, collectNFTAddress, chainId } = JSON.parse(accessKey);
+    const { userAddress, collectNFTAddress, chainId, seller } =
+      JSON.parse(accessKey);
 
     if (!userAddress) {
       return res.status(401).send({ message: "Unauthorized" });
+    }
+
+    if (userAddress === seller) {
+      return res.status(200).send({ message: "Ok" });
     }
 
     const provider = new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);

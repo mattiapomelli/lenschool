@@ -21,6 +21,7 @@ export const CoursePlayer = ({ course, className }: CoursePlayerProps) => {
           userAddress: address,
           collectNFTAddress: course.publication.collectNftAddress,
           chainId: CHAIN.id,
+          seller: course.seller,
         })}
       />
     </div>
