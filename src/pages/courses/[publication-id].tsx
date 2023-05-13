@@ -31,18 +31,17 @@ const CourseInfo = ({
   course: CourseWithPublicationAndReferral;
 }) => {
   const { data: activeProfile } = useActiveProfile();
-  const { execute: collect } = useCollect({
+  const { execute: collect, isPending: collectIsPending } = useCollect({
     collector: activeProfile as ProfileOwnedByMeFragment,
     publication: course.publication,
   });
-  const { execute: mirror } = useCreateMirror({
+  const { execute: mirror, isPending: mirrorIsPending } = useCreateMirror({
     publisher: activeProfile as ProfileOwnedByMeFragment,
   });
   const { connector: activeConnector } = useAccount();
   const [currentAllowance, setAllowance] = useState<string>("0.0");
 
   const [approvalLoading, setApprovalLoading] = useState(false);
-  const [enrollLoading, setEnrollLoading] = useState(false);
 
   useEffect(() => {
     if (activeConnector) {
@@ -124,11 +123,7 @@ const CourseInfo = ({
 
   const handleCollect = async (event: FormEvent) => {
     event.preventDefault();
-    setEnrollLoading(true);
-    collect()
-      .then(console.log)
-      .catch(console.log)
-      .finally(() => setEnrollLoading(false));
+    collect().then(console.log).catch(console.log);
   };
 
   const handleReferral = async (event: FormEvent) => {
@@ -191,7 +186,7 @@ const CourseInfo = ({
                 <>
                   <p className="max-w-[300px] text-center">
                     Share this course with your frens and earn a fee for every
-                    purchase made
+                    sale made through your link
                   </p>
                   {referralLink ? (
                     <CopyButton
@@ -199,7 +194,13 @@ const CourseInfo = ({
                       label="Copy referral link"
                     />
                   ) : (
-                    <Button onClick={handleReferral} color="neutral" size="lg">
+                    <Button
+                      onClick={handleReferral}
+                      disabled={mirrorIsPending}
+                      loading={mirrorIsPending}
+                      color="neutral"
+                      size="lg"
+                    >
                       Refer course
                     </Button>
                   )}
@@ -222,8 +223,8 @@ const CourseInfo = ({
                 </Button>
               )}
               <Button
-                disabled={currentAllowance === "0.0" || enrollLoading}
-                loading={enrollLoading}
+                disabled={currentAllowance === "0.0" || collectIsPending}
+                loading={collectIsPending}
                 onClick={handleCollect}
                 size="lg"
               >
