@@ -1,201 +1,128 @@
-import { ethers } from "ethers";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useAccount } from "wagmi";
+import { useActiveProfile } from "@lens-protocol/react-web";
+import { CredentialType, IDKitWidget } from "@worldcoin/idkit";
+import Image from "next/image";
+import React from "react";
+import { useQuery } from "wagmi";
 
 import { Button } from "@components/basic/button";
-import { Input } from "@components/basic/input";
 import { Spinner } from "@components/basic/spinner";
-import { TextArea } from "@components/basic/textarea/textarea";
-import { FileDropzone } from "@components/file-dropzone";
-import { WalletStatus } from "@components/wallet/wallet-status";
-import { useUploadVideo } from "@hooks/use-upload-video";
-import { useCreateCourse } from "@lib/courses/use-create-course";
+import { CreateCourseForm } from "@components/course/create-course-form";
+import { LensLogin } from "@components/layout/lens-login";
+import { env } from "env.mjs";
 
-import type { Asset } from "@livepeer/react";
+import type { ISuccessResult } from "@worldcoin/idkit";
 import type { NextPage } from "next";
 
-interface CreateCourseFields {
-  title: string;
-  price: string;
-  referral: string;
-  description: string;
-  keywords: string;
-}
-
-const CreateCourseForm = () => {
-  const [asset, setAsset] = useState<Asset | undefined>();
-
-  const router = useRouter();
-
-  const [image, setImage] = useState<File | undefined>();
-  const [video, setVideo] = useState<File | undefined>();
+const CreateCoursePageInner = () => {
+  const { data: profile, loading: profileLoading } = useActiveProfile();
 
   const {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    mutateAsync: uploadVideo,
-    error,
-    progressFormatted,
-    isLoading: uploadIsLoading,
-  } = useUploadVideo(video, {
-    onSuccess: setAsset,
+    data: isVerified,
+    isLoading: verifiedLoading,
+    refetch: refetchIsVerified,
+  } = useQuery<boolean>(["is-verified", profile?.ownedBy], async () => {
+    const res = await fetch(`/api/is-verified?address=${profile?.ownedBy}`);
+    const data = await res.json();
+    return data.verified;
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<CreateCourseFields>();
+  const onSuccess = (result: ISuccessResult) => {
+    console.log("Result ", result);
+    refetchIsVerified();
+  };
 
-  const { mutate: createCourse, isLoading } = useCreateCourse({
-    onSuccess(receipt) {
-      reset();
-      if (!receipt) return;
-      // const id = receipt.events?.find((e) => e.event === "CourseCreated")?.args
-      //   ?.courseId;
-
-      router.push(`/`);
-    },
-  });
-
-  const onSubmit = handleSubmit(async (data) => {
-    // if (!asset) {
-    //   await uploadVideo();
-    // } else {
-    // if (!asset.playbackId || !image) return;
-    // if (!asset.playbackId || !image) return;
-    const { title, description, price, referral, keywords } = data;
-
-    createCourse({
-      title,
-      description,
-      price: ethers.utils.parseEther(price),
-      referral: Number(referral),
-      // image,
-      image: new File([], ""),
-      // videoPlaybackId: asset.plsaybackId,
-      videoPlaybackId: "1806vd0wgt1rmgmo",
-      keywords: keywords.split(",").map((value) => value.trim()),
+  const handleProof = async (result: ISuccessResult) => {
+    const reqBody = {
+      merkle_root: result.merkle_root,
+      nullifier_hash: result.nullifier_hash,
+      proof: result.proof,
+      credential_type: result.credential_type,
+      action: env.NEXT_PUBLIC_WLD_ACTION_NAME,
+      signal: "",
+      userAddress: profile?.ownedBy,
+    };
+    fetch("/api/verify-worldcoin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reqBody),
+    }).then(async (res: Response) => {
+      if (res.status == 200) {
+        console.log("Successfully verified credential.");
+      } else {
+        throw (
+          new Error("Error: " + (await res.json()).code) ?? "Unknown error."
+        );
+      }
     });
-    // }
-  });
+  };
 
-  return (
-    <>
-      <form className="flex flex-col gap-2" onSubmit={onSubmit}>
-        <Input
-          label="Title"
-          block
-          defaultValue="title"
-          {...register("title", { required: "Title is required" })}
-          error={errors.title?.message}
-        />
-        <Input
-          label="Price (MATIC)"
-          type="number"
-          step="0.0000001"
-          block
-          defaultValue="0.0001"
-          {...register("price", { required: "Price is required" })}
-          error={errors.price?.message}
-        />
-        <Input
-          label="Referral fee (%)"
-          type="number"
-          block
-          defaultValue="1"
-          {...register("referral", { required: "Referral fee is required" })}
-          error={errors.referral?.message}
-        />
-        <Input
-          label="Categories (sep. by comma)"
-          block
-          defaultValue="category1, category2"
-          {...register("keywords", { required: "Category is required" })}
-          error={errors.keywords?.message}
-        />
-        <TextArea
-          label="Description"
-          rows={3}
-          defaultValue="description"
-          {...register("description", {
-            required: "Description is required",
-          })}
-          error={errors.description?.message}
-        />
-        <FileDropzone
-          value={image}
-          onValueChange={setImage}
-          accept={{
-            "image/*": [".jpeg", ".png"],
-          }}
-          label="Cover Image"
-        />
+  if (profileLoading || verifiedLoading) {
+    return (
+      <div className="my-14 flex justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
-        {asset ? (
-          <div className="rounded-box border-success bg-success/50 px-4 py-3">
-            Video uploaded ✅
-          </div>
-        ) : (
-          <FileDropzone
-            value={video}
-            onValueChange={setVideo}
-            accept={{
-              "video/*": ["*.mp4"],
-            }}
-            label="Video lecture"
-          />
-        )}
+  console.log("Profile: ", profile);
 
-        <Button
-          className="mt-2"
-          block
-          type="submit"
-          loading={isLoading || uploadIsLoading}
-          disabled={isLoading || uploadIsLoading}
+  if (!profile) {
+    return (
+      <div className="my-14 flex flex-col items-center gap-3">
+        <p>Sign in with Lens to create a course</p>
+        <LensLogin />
+      </div>
+    );
+  }
+
+  console.log("Is verified: ", isVerified);
+
+  if (!isVerified) {
+    return (
+      <div className="my-14 flex flex-col items-center gap-5">
+        <p className="max-w-[400px] text-center">
+          Prove that you&apos;re an human to start teaching. No bots 🤖 or
+          aliens 👽 allowed.
+        </p>
+        <IDKitWidget
+          action={env.NEXT_PUBLIC_WLD_ACTION_NAME}
+          onSuccess={onSuccess}
+          handleVerify={handleProof}
+          app_id={env.NEXT_PUBLIC_WLD_APP_ID}
+          credential_types={[CredentialType.Orb, CredentialType.Phone]}
         >
-          {asset ? "Publish course" : "Upload video"}
-        </Button>
-        {!asset && (
-          <div className="mt-2">
-            {error?.message && <p className="text-error">{error.message}</p>}
-            {progressFormatted && <span>{progressFormatted}</span>}
+          {({ open }) => <Button onClick={open}>Verify with World ID</Button>}
+        </IDKitWidget>
+        <div className="mt-2">
+          <p className="mb-1 text-center text-sm">Powered by</p>
+          <div className="flex items-center gap-2">
+            <Image
+              src="/worldcoin-logo.svg"
+              height={24}
+              width={141}
+              alt="Worldcoin"
+            />
+            <span>❤️</span>
           </div>
-        )}
-      </form>
-    </>
-  );
+        </div>
+      </div>
+    );
+  }
+
+  return <CreateCourseForm />;
 };
 
 const CreateCoursePage: NextPage = () => {
-  const { address, isConnecting, isReconnecting } = useAccount();
-
   return (
     <div className="mx-auto max-w-xl">
       <h1 className="mb-6 text-3xl font-bold underline decoration-primary">
         Teach what you know 💎
       </h1>
       <h4 className="mb-4 mt-2 text-xl font-bold">New course</h4>
-      {isConnecting || isReconnecting ? (
-        <div className="my-14 flex justify-center">
-          <Spinner />
-        </div>
-      ) : (
-        <>
-          {address ? (
-            <CreateCourseForm />
-          ) : (
-            <div className="my-14 flex flex-col items-center gap-3">
-              <p>Connect your wallet to create a course</p>
-              <WalletStatus />
-            </div>
-          )}
-        </>
-      )}
+      <CreateCoursePageInner />
     </div>
   );
 };
-
 export default CreateCoursePage;

@@ -64,7 +64,7 @@ export const LensLogin = () => {
                 alt={activeProfile.handle}
                 width={25}
                 height={25}
-                className="mr-3 rounded-full"
+                className="mr-1 rounded-full"
               />
               <span className="text-base font-medium">
                 {activeProfile.handle}
