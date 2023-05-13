@@ -108,12 +108,6 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
         },
       });
 
-      console.log(
-        "Transactions: ",
-        localStorage.getItem("lens.development.transactions"),
-      );
-      localStorage.removeItem("lens.development.transactions");
-
       return receipt;
     },
     {
