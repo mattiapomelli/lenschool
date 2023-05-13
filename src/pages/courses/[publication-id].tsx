@@ -75,9 +75,7 @@ const CourseInfo = ({
     mirror({
       publication: course.publication,
     })
-      .then(() => {
-        router.reload();
-      })
+      .then(console.log)
       .catch(console.log);
   };
 
@@ -123,7 +121,8 @@ const CourseInfo = ({
           {hasPurchasedCourse ? (
             <div className="flex w-full flex-col items-center gap-4">
               <CoursePlayer course={course} className="w-full" />
-              {!course.isReferral && course.seller !== address && (
+              {/* {!course.isReferral && course.seller !== address && ( */}
+              {!course.isReferral && (
                 <>
                   <p className="max-w-[300px] text-center">
                     Share this course with your frens and earn a fee for every
