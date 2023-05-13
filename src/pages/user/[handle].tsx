@@ -39,18 +39,20 @@ const ProfileInfo = ({ profile }: { profile: Profile }) => {
             priority
           />
         </div>
-        <h1 className="mt-1 text-2xl font-semibold">{profile.handle}</h1>
-        {activeProfile && (
-          <a
-            href={getDMLink(activeProfile, profile)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button size="sm" className="ml-2">
-              Connect
-            </Button>
-          </a>
-        )}
+        <div className="flex flex-col gap-2 md:flex-row">
+          <h1 className="mt-1 text-xl font-semibold md:text-2xl">
+            {profile.handle}
+          </h1>
+          {activeProfile && (
+            <a
+              href={getDMLink(activeProfile, profile)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button size="sm">Connect</Button>
+            </a>
+          )}
+        </div>
       </div>
       <p className="mt-4">{profile.bio}</p>
 

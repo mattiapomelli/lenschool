@@ -38,7 +38,7 @@ const CourseInfo = ({
 
   return (
     <div>
-      <div className="flex gap-10">
+      <div className="flex flex-col gap-10 md:flex-row">
         <div className="flex-1">
           <div className="rounded-box relative h-40 overflow-hidden">
             <Image

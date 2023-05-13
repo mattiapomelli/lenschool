@@ -58,7 +58,7 @@ export const LensLogin = () => {
       <div className="flex items-center">
         {activeProfile ? (
           <Menu as="div" className="relative text-xs text-lime-900">
-            <Menu.Button className="flex cursor-pointer items-center space-x-1 rounded-md bg-lime-300 px-2 py-1">
+            <Menu.Button className="flex cursor-pointer items-center space-x-1 rounded-lg bg-lime-300 px-2 py-1.5">
               <Image
                 src={getPictureURL(activeProfile)}
                 alt={activeProfile.handle}
@@ -66,9 +66,11 @@ export const LensLogin = () => {
                 height={25}
                 className="mr-3 rounded-full"
               />
-              {activeProfile.handle}
+              <span className="text-base font-medium">
+                {activeProfile.handle}
+              </span>
             </Menu.Button>
-            <Menu.Items className="absolute z-50 mt-1 w-full space-y-1 rounded-md border bg-white p-0.5 text-sm text-gray-900">
+            <Menu.Items className="absolute z-50 mt-1 w-full space-y-1 rounded-md border bg-white p-2 text-sm text-gray-900">
               <Menu.Item>
                 <Link
                   href={`/user/${activeProfile.handle.replace(".test", "")}`}
@@ -89,7 +91,7 @@ export const LensLogin = () => {
           </Menu>
         ) : (
           <button
-            className="flex cursor-pointer items-center space-x-1 rounded-md bg-lime-500 p-2 text-xs text-lime-50"
+            className="flex cursor-pointer items-center space-x-1 rounded-md bg-lime-500 p-2 text-sm font-medium text-lime-50"
             onClick={signIn}
           >
             <svg

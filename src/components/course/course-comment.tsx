@@ -46,7 +46,10 @@ export const CourseComment = ({ comment }: CourseCommentProps) => {
     <div className="flex flex-col gap-2">
       <CourseCommentCard comment={comment} />
       {comment.firstComment && (
-        <CourseCommentCard comment={comment.firstComment} className="ml-20" />
+        <CourseCommentCard
+          comment={comment.firstComment}
+          className="ml-10 md:ml-20"
+        />
       )}
       <ReplyCommentForm pubId={comment.id} />
     </div>
