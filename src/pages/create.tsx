@@ -97,7 +97,7 @@ const CreateCourseForm = () => {
           type="number"
           step="0.0000001"
           block
-          defaultValue="1"
+          defaultValue="0.0001"
           {...register("price", { required: "Price is required" })}
           error={errors.price?.message}
         />

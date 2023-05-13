@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import { FormEvent, useState } from "react";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -10,8 +11,17 @@ import { Tabs } from "@components/basic/tabs";
 import { CourseForum } from "@components/course/course-forum";
 import { CoursePlayer } from "@components/course/course-player";
 import { CourseStudentsList } from "@components/course/course-students-list";
+import {
+  ProfileId,
+  ProfileOwnedByMeFragment,
+  useActiveProfile,
+  useCollect,
+  useCreateMirror,
+  usePublications,
+} from "@lens-protocol/react-web";
 import { useCourse } from "@lib/courses/use-course";
 import { getPictureURL } from "@utils/ipfs-to-gateway-url";
+import { copyToClipboard } from "@utils/copy-to-clipboard";
 
 import type { CourseWithPublicationAndReferral } from "@lib/courses/types";
 
@@ -20,7 +30,18 @@ const CourseInfo = ({
 }: {
   course: CourseWithPublicationAndReferral;
 }) => {
+  const router = useRouter();
   const { address } = useAccount();
+  const { data: activeProfile, loading } = useActiveProfile();
+  const { execute: collect } = useCollect({
+    collector: activeProfile as ProfileOwnedByMeFragment,
+    publication: course.publication,
+  });
+  const { execute: mirror } = useCreateMirror({
+    publisher: activeProfile as ProfileOwnedByMeFragment,
+  });
+  const [referralCopied, setReferralCopied] = useState(false);
+
   const hasPurchasedCourse = course.publication.hasCollectedByMe;
 
   const items = [
@@ -34,7 +55,30 @@ const CourseInfo = ({
     },
   ];
 
-  // console.log("Course: ", course);
+  const handleCollect = async (event: FormEvent) => {
+    console.log("collecting post");
+    event.preventDefault();
+    collect().then(console.log).catch(console.log);
+  };
+
+  const handleReferral = async (event: FormEvent) => {
+    console.log("mirroring post");
+    event.preventDefault();
+    mirror({
+      publication: course.publication,
+    })
+      .then(() => {
+        if (activeProfile) {
+          const mirrorId =
+            "0x" + (activeProfile?.stats.totalPublications + 1).toString(16);
+          copyToClipboard(
+            `http://localhost:3000/courses/${activeProfile.id}-${mirrorId}`,
+          );
+          setReferralCopied(true);
+        }
+      })
+      .catch(console.log);
+  };
 
   return (
     <div>
@@ -53,7 +97,7 @@ const CourseInfo = ({
           <div className="flex items-center gap-2">
             <div className="relative mt-2 h-10 w-10 shrink-0 overflow-hidden rounded-full">
               <Image
-                src={getPictureURL(course.publication.profile)}
+                src={getPictureURL(course.publication)}
                 layout="fill"
                 objectFit="cover"
                 alt="Profile"
@@ -95,7 +139,12 @@ const CourseInfo = ({
               <span className="text-center font-bold">
                 {ethers.utils.formatEther(course.price)} wMATIC
               </span>
-              <Button size="lg">Enroll now</Button>
+              <Button onClick={handleCollect} size="lg">
+                Enroll now
+              </Button>
+              <Button onClick={handleReferral} color="secondary" size="lg">
+                {referralCopied ? "Copied!" : "Get referral link"}
+              </Button>
             </div>
           )}
         </div>
