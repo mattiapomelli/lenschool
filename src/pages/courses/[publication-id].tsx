@@ -8,7 +8,7 @@ import { Contract, ethers } from "ethers";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useAccount, erc20ABI } from "wagmi";
 
 import { Button } from "@components/basic/button";
@@ -22,6 +22,8 @@ import { useCourse } from "@lib/courses/use-course";
 import { getPictureURL } from "@utils/ipfs-to-gateway-url";
 
 import type { CourseWithPublicationAndReferral } from "@lib/courses/types";
+
+const WMATIC = "0x9c3c9283d3e44854697cd22d3faa240cfb032889"; // WMATIC
 
 const CourseInfo = ({
   course,
@@ -37,6 +39,31 @@ const CourseInfo = ({
     publisher: activeProfile as ProfileOwnedByMeFragment,
   });
   const { connector: activeConnector } = useAccount();
+  const [currentAllowance, setAllowance] = useState<string>("0.0");
+
+  const [approvalLoading, setApprovalLoading] = useState(false);
+  const [enrollLoading, setEnrollLoading] = useState(false);
+
+  useEffect(() => {
+    if (activeConnector) {
+      // check allowance
+      activeConnector.getSigner().then((signer: any) => {
+        const erc20 = new Contract(WMATIC, erc20ABI, signer);
+        erc20
+          .connect(signer)
+          .allowance(
+            signer.getAddress(),
+            course.publication.collectPolicy.contractAddress,
+          )
+          .then((checkAllowancetx: any) => {
+            const currentAllowance = ethers.utils.formatEther(checkAllowancetx);
+
+            console.log(currentAllowance);
+            setAllowance(currentAllowance);
+          });
+      });
+    }
+  }, []);
 
   const hasPurchasedCourse = course.publication.hasCollectedByMe;
   // @ts-ignore
@@ -59,30 +86,49 @@ const CourseInfo = ({
     },
   ];
 
-  const handleCollect = async (event: FormEvent) => {
-    console.log("collecting post");
+  // console.log("Publication: ", course);
+
+  const handleApproval = async (event: FormEvent) => {
     event.preventDefault();
-
-    console.log("approving");
-
-    const address = "0x9c3c9283d3e44854697cd22d3faa240cfb032889"; // WMATIC
+    setApprovalLoading(true);
 
     if (activeConnector) {
-      console.log(activeConnector);
-      const signer = await activeConnector.getSigner();
-      console.log(signer);
-      const erc20 = new Contract(address, erc20ABI, signer);
-      const tx = await erc20
-        .connect(signer)
-        .approve(
-          course.publication.collectPolicy.contractAddress,
-          ethers.constants.MaxUint256,
-        );
-      await tx.wait();
-      console.log(tx);
+      // TODO: compare allowance with policy amount
+      // console.log(collectPolicy.amount.value);
+
+      // approval
+      if (currentAllowance === "0.0") {
+        const signer = await activeConnector.getSigner();
+        const erc20 = new Contract(WMATIC, erc20ABI, signer);
+        const approveTx = await erc20
+          .connect(signer)
+          .approve(
+            course.publication.collectPolicy.contractAddress,
+            ethers.constants.MaxUint256,
+          );
+        await approveTx.wait();
+
+        const allowance = await erc20
+          .connect(signer)
+          .allowance(
+            signer.getAddress(),
+            course.publication.collectPolicy.contractAddress,
+          );
+
+        setAllowance(ethers.utils.formatEther(allowance));
+      }
     }
 
-    collect().then(console.log).catch(console.log);
+    setApprovalLoading(false);
+  };
+
+  const handleCollect = async (event: FormEvent) => {
+    event.preventDefault();
+    setEnrollLoading(true);
+    collect()
+      .then(console.log)
+      .catch(console.log)
+      .finally(() => setEnrollLoading(false));
   };
 
   const handleReferral = async (event: FormEvent) => {
@@ -163,9 +209,24 @@ const CourseInfo = ({
           ) : (
             <div className="flex flex-col gap-2">
               <span className="text-center font-bold">
-                {ethers.utils.formatEther(course.price)} wMATIC
+                {ethers.utils.formatEther(course.price)} WMATIC
               </span>
-              <Button onClick={handleCollect} size="lg">
+              {currentAllowance === "0.0" && (
+                <Button
+                  onClick={handleApproval}
+                  size="lg"
+                  loading={approvalLoading}
+                  disabled={approvalLoading}
+                >
+                  Approve
+                </Button>
+              )}
+              <Button
+                disabled={currentAllowance === "0.0" || enrollLoading}
+                loading={enrollLoading}
+                onClick={handleCollect}
+                size="lg"
+              >
                 Enroll now
               </Button>
             </div>
