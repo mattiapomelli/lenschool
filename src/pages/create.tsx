@@ -33,6 +33,7 @@ const CreateCourseForm = () => {
   const [video, setVideo] = useState<File | undefined>();
 
   const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mutateAsync: uploadVideo,
     error,
     progressFormatted,
