@@ -1,10 +1,8 @@
 import { ethers } from "ethers";
+import { erc721ABI } from "wagmi";
 
-import { KnowledgeLayerCourseAbi } from "@abis/knowledgelayer-course";
 import { RPC_URL } from "@constants/urls";
-import { KNOWLEDGELAYER_COURSE_ADDRESS } from "constants/addresses";
 
-import type { KnowledgeLayerCourse } from "@abis/types/knowledgelayer-course";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -15,25 +13,21 @@ export default async function handler(
     console.log("Body: ", req.body);
 
     const { accessKey } = req.body;
-    const { address, courseId, chainId } = JSON.parse(accessKey);
+    const { userAddress, collectNFTAddress, chainId } = JSON.parse(accessKey);
 
-    if (!address) {
+    if (!userAddress) {
       return res.status(401).send({ message: "Unauthorized" });
     }
 
     const provider = new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
-    const knowledgeLayerCourse = new ethers.Contract(
-      KNOWLEDGELAYER_COURSE_ADDRESS[chainId],
-      KnowledgeLayerCourseAbi,
+    const collectNFT = new ethers.Contract(
+      collectNFTAddress,
+      erc721ABI,
       provider,
-    ) as KnowledgeLayerCourse;
+    );
 
-    const seller = (await knowledgeLayerCourse.courses(courseId)).seller;
-    if (address === seller) {
-      return res.status(200).send({ message: "Ok" });
-    }
+    const balance = await collectNFT.balanceOf(userAddress);
 
-    const balance = await knowledgeLayerCourse.balanceOf(address, courseId);
     if (balance.gt(0)) {
       return res.status(200).send({ message: "Ok" });
     }

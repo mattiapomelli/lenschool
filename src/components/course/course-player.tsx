@@ -3,10 +3,10 @@ import { useAccount } from "wagmi";
 
 import { CHAIN } from "@constants/chains";
 
-import type { Course } from "@lib/courses/types";
+import type { CourseWithPublication } from "@lib/courses/types";
 
 interface CoursePlayerProps {
-  course: Course;
+  course: CourseWithPublication;
   className?: string;
 }
 
@@ -18,9 +18,9 @@ export const CoursePlayer = ({ course, className }: CoursePlayerProps) => {
       <Player
         playbackId={course.metadata.videoPlaybackId}
         accessKey={JSON.stringify({
-          address,
+          userAddress: address,
+          collectNFTAddress: course.publication.collectNftAddress,
           chainId: CHAIN.id,
-          courseId: course.id,
         })}
       />
     </div>
