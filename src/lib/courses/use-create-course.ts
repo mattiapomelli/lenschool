@@ -1,13 +1,3 @@
-import { useMutation } from "wagmi";
-
-import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
-import { uploadToIPFS } from "@utils/ipfs";
-import { uploadImage } from "@utils/upload-image";
-import { upload } from "@utils/upload";
-
-import type { BigNumber, ContractReceipt } from "ethers";
-import { ethers } from "ethers";
-
 import {
   useActiveProfile,
   useCreatePost,
@@ -16,11 +6,18 @@ import {
   ProfileOwnedByMe,
   Amount,
   useCurrencies,
-  Matic,
   Erc20,
 } from "@lens-protocol/react-web";
+import { ethers } from "ethers";
+import { useMutation } from "wagmi";
 
 import { LENSCHOOL_TAG } from "@constants/lens";
+import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
+import { uploadToIPFS } from "@utils/ipfs";
+import { upload } from "@utils/upload";
+import { uploadImage } from "@utils/upload-image";
+
+import type { BigNumber, ContractReceipt } from "ethers";
 
 export interface CreateCourseData {
   title: string;
@@ -37,14 +34,13 @@ interface UseCreateCourseOptions {
 }
 
 export const useCreateCourse = (options?: UseCreateCourseOptions) => {
-  const { data: profile, loading } = useActiveProfile();
+  const { data: profile } = useActiveProfile();
   const { data: currencies } = useCurrencies();
   // @ts-ignore
-  const {
-    execute: create,
-    error,
-    isPending,
-  } = useCreatePost({ publisher: profile as ProfileOwnedByMe, upload });
+  const { execute: create } = useCreatePost({
+    publisher: profile as ProfileOwnedByMe,
+    upload,
+  });
   const knowledgeLayerCourse = useKnowledgeLayerCourse(true);
   const mutation = useMutation(
     async ({
@@ -76,7 +72,7 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
       const id = receipt.events?.find((e) => e.event === "CourseCreated")?.args
         ?.courseId;
 
-      const result = await create({
+      await create({
         content:
           description +
           " " +
@@ -109,8 +105,6 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
           },
         },
       });
-
-      console.log("Post created", result);
 
       console.log(
         "Transactions: ",
