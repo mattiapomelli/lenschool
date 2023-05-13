@@ -15,14 +15,12 @@ import type { CourseWithPublication } from "@lib/courses/types";
 
 const CourseInfo = ({ course }: { course: CourseWithPublication }) => {
   const { address } = useAccount();
-  const hasPurchasedCourse = true;
-
-  // const onBuyCourse = async () => {};
+  const hasPurchasedCourse = course.publication.hasCollectedByMe;
 
   const items = [
     {
       label: "Enrolled Students",
-      content: <CourseStudentsList />,
+      content: <CourseStudentsList publicationId={course.publication.id} />,
     },
     {
       label: "Forum",
