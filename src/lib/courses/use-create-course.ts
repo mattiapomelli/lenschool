@@ -1,24 +1,31 @@
+import { useMutation } from "wagmi";
+
+import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
+import { uploadToIPFS } from "@utils/ipfs";
+import { uploadImage } from "@utils/upload-image";
+import { upload } from "@utils/upload";
+
+import type { BigNumber, ContractReceipt } from "ethers";
+import { ethers } from "ethers";
+
 import {
   useActiveProfile,
   useCreatePost,
   CollectPolicyType,
   ContentFocus,
-  NftAttributeDisplayType,
   ProfileOwnedByMe,
+  Amount,
+  useCurrencies,
+  Matic,
+  Erc20,
 } from "@lens-protocol/react-web";
-import { useMutation } from "wagmi";
 
 import { LENSCHOOL_TAG } from "@constants/lens";
-import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
-import { uploadToIPFS } from "@utils/ipfs";
-import { upload } from "@utils/upload";
-import { uploadImage } from "@utils/upload-image";
-
-import type { BigNumber, ContractReceipt } from "ethers";
 
 export interface CreateCourseData {
   title: string;
   price: BigNumber;
+  referral: number;
   image: File;
   description: string;
   keywords: string[];
@@ -31,6 +38,7 @@ interface UseCreateCourseOptions {
 
 export const useCreateCourse = (options?: UseCreateCourseOptions) => {
   const { data: profile, loading } = useActiveProfile();
+  const { data: currencies } = useCurrencies();
   // @ts-ignore
   const {
     execute: create,
@@ -43,6 +51,7 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
       title,
       description,
       price,
+      referral,
       image,
       keywords,
       videoPlaybackId,
@@ -76,7 +85,15 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
         contentFocus: ContentFocus.TEXT,
         locale: "en",
         collect: {
-          type: CollectPolicyType.FREE,
+          type: CollectPolicyType.CHARGE,
+          fee: Amount.erc20(
+            currencies?.find((c) => c.symbol === "WMATIC") as Erc20,
+            ethers.utils.formatEther(price),
+          ),
+          mirrorReward: referral,
+          timeLimited: false,
+          followersOnly: true,
+          recipient: profile?.ownedBy as string,
           metadata: {
             name: title,
             description,
@@ -90,9 +107,16 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
               },
             ],
           },
-          followersOnly: true,
         },
       });
+
+      console.log("Post created", result);
+
+      console.log(
+        "Transactions: ",
+        localStorage.getItem("lens.development.transactions"),
+      );
+      localStorage.removeItem("lens.development.transactions");
 
       return receipt;
     },
