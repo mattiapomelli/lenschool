@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Button } from "@components/basic/button";
 
 export const CreatorsSection = () => {
@@ -10,13 +12,9 @@ export const CreatorsSection = () => {
         Share and monetize your knowledge by teaching to other people. Leverage
         referral programs to reach a wider audience.
       </p>
-      <a
-        href="https://tiapome.notion.site/KnowledgeLayer-Manifesto-dc10fb32bfb34847a591894479f3107a"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <Link href="/create" target="_blank" rel="noreferrer">
         <Button>Start teaching</Button>
-      </a>
+      </Link>
     </section>
   );
 };

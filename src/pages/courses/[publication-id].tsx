@@ -18,19 +18,13 @@ import { Tabs } from "@components/basic/tabs";
 import { CourseForum } from "@components/course/course-forum";
 import { CoursePlayer } from "@components/course/course-player";
 import { CourseStudentsList } from "@components/course/course-students-list";
+import { CourseTag } from "@components/course/course-tag";
 import { useCourse } from "@lib/courses/use-course";
 import { getPictureURL } from "@utils/ipfs-to-gateway-url";
 
 import type { CourseWithPublicationAndReferral } from "@lib/courses/types";
 
 const WMATIC = "0x9c3c9283d3e44854697cd22d3faa240cfb032889"; // WMATIC
-
-const hashColors = new Map();
-hashColors.set("AI", "green");
-hashColors.set("Arts and Humanities", "red");
-hashColors.set("Web3", "blue");
-hashColors.set("Data Science", "orange");
-hashColors.set("Health", "blue");
 
 const CourseInfo = ({
   course,
@@ -182,23 +176,10 @@ const CourseInfo = ({
             </Link>
           </div>
           <p className="mt-4">{course.metadata.description}</p>
-          <div className="mt-1.5 flex space-x-2">
-            {course.metadata.keywords.map((keyword) => {
-              if (hashColors.has(keyword)) {
-                return (
-                  <div
-                    key={keyword}
-                    className={`w-fit rounded bg-${hashColors.get(
-                      keyword,
-                    )}-200 text-sm text-${hashColors.get(
-                      keyword,
-                    )}-900 py-1 px-3 mb-3`}
-                  >
-                    {keyword}
-                  </div>
-                );
-              }
-            })}
+          <div className="mt-3 flex gap-2">
+            {course.metadata.keywords.map((keyword) => (
+              <CourseTag key={keyword} topic={keyword} />
+            ))}
           </div>
         </div>
 
