@@ -57,25 +57,24 @@ export const CreateCourseForm = () => {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    // if (!asset) {
-    //   await uploadVideo();
-    // } else {
-    // if (!asset.playbackId || !image) return;
-    // if (!asset.playbackId || !image) return;
-    const { title, description, price, referral, keywords } = data;
+    if (!asset) {
+      await uploadVideo();
+    } else {
+      if (!asset.playbackId || !image) return;
+      const { title, description, price, referral, keywords } = data;
 
-    createCourse({
-      title,
-      description,
-      price: ethers.utils.parseEther(price),
-      referral: Number(referral),
-      // image,
-      image: new File([], ""),
-      // videoPlaybackId: asset.plsaybackId,
-      videoPlaybackId: "1806vd0wgt1rmgmo",
-      keywords: keywords.split(",").map((value) => value.trim()),
-    });
-    // }
+      createCourse({
+        title,
+        description,
+        price: ethers.utils.parseEther(price),
+        referral: Number(referral),
+        image,
+        // image: new File([], ""),
+        videoPlaybackId: asset.playbackId,
+        // videoPlaybackId: "1806vd0wgt1rmgmo",
+        keywords: keywords.split(",").map((value) => value.trim()),
+      });
+    }
   });
 
   return (
@@ -84,7 +83,6 @@ export const CreateCourseForm = () => {
         <Input
           label="Title"
           block
-          defaultValue="title"
           {...register("title", { required: "Title is required" })}
           error={errors.title?.message}
         />
@@ -93,7 +91,6 @@ export const CreateCourseForm = () => {
           type="number"
           step="0.0000001"
           block
-          defaultValue="0.0001"
           {...register("price", { required: "Price is required" })}
           error={errors.price?.message}
         />
@@ -101,21 +98,18 @@ export const CreateCourseForm = () => {
           label="Referral fee (%)"
           type="number"
           block
-          defaultValue="1"
           {...register("referral", { required: "Referral fee is required" })}
           error={errors.referral?.message}
         />
         <Input
           label="Categories (sep. by comma)"
           block
-          defaultValue="category1, category2"
           {...register("keywords", { required: "Category is required" })}
           error={errors.keywords?.message}
         />
         <TextArea
           label="Description"
           rows={3}
-          defaultValue="description"
           {...register("description", {
             required: "Description is required",
           })}
@@ -139,7 +133,7 @@ export const CreateCourseForm = () => {
             value={video}
             onValueChange={setVideo}
             accept={{
-              "video/*": ["*.mp4"],
+              "video/*": [".mp4"],
             }}
             label="Video lecture"
           />

@@ -56,12 +56,13 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
       if (!knowledgeLayerCourse) return;
 
       const imageUrl = await uploadImage(image);
+      console.log("Image URL: ", imageUrl);
       if (!imageUrl) return;
 
       const dataUri = await uploadToIPFS({
         title,
         description,
-        // imageUrl,
+        imageUrl,
         keywords,
         videoPlaybackId,
       });

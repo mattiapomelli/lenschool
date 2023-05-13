@@ -1,1 +1,1 @@
-export const LENSCHOOL_TAG = "lenschooldev";
+export const LENSCHOOL_TAG = "lenschool";

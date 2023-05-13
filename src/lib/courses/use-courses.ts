@@ -19,7 +19,7 @@ export const useCourses = () => {
     limit: 50,
   });
 
-  // console.log("publications: ", publications);
+  console.log("publications: ", publications);
 
   const query = useQuery<CourseWithPublication[]>(
     ["courses"],
@@ -27,12 +27,17 @@ export const useCourses = () => {
       if (!knowledgeLayerCourse || !publications) return [];
 
       const courseIds = (publications as Post[]).map((publication) => {
-        return Number(
-          publication.metadata.attributes.find(
-            (attr) => attr.traitType === "CourseId",
-          )?.value,
-        );
+        console.log("publication: ", publication);
+        const courseId = publication.metadata.attributes.find(
+          (attr) => attr.traitType === "CourseId",
+        )?.value;
+        console.log("CourseId: ", courseId);
+        if (courseId) {
+          return Number(courseId);
+        }
       });
+
+      console.log("CourseIds: ", courseIds);
 
       const coursesStructs = await Promise.all(
         courseIds.map((courseId) => knowledgeLayerCourse.courses(courseId)),
@@ -58,6 +63,8 @@ export const useCourses = () => {
         metadata: coursesMetadata[index],
         publication,
       }));
+
+      console.log("Courses with publication: ", coursesWithPublication);
 
       return coursesWithPublication;
     },
