@@ -19,7 +19,7 @@ export const useCourses = () => {
     limit: 50,
   });
 
-  console.log("publications: ", publications);
+  // console.log("publications: ", publications);
 
   const query = useQuery<CourseWithPublication[]>(
     ["courses"],
