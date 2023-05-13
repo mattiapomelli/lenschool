@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { Button } from "@components/basic/button";
 import { Spinner } from "@components/basic/spinner";
 import { Tabs } from "@components/basic/tabs";
+import { ProfileCreatedCourses } from "@components/profile/profile-created-courses";
 import { ProfileEnrolledCourses } from "@components/profile/profile-enrolled-courses";
 import { getPictureURL } from "@utils/ipfs-to-gateway-url";
 
@@ -14,10 +15,10 @@ const ProfileInfo = ({ profile }: { profile: Profile }) => {
       label: "Enrolled Courses",
       content: <ProfileEnrolledCourses profile={profile} />,
     },
-    // {
-    //   label: "Discussions",
-    //   content: <CourseForum publicationId={course.publication.id} />,
-    // },
+    {
+      label: "Created Courses",
+      content: <ProfileCreatedCourses profile={profile} />,
+    },
   ];
 
   return (

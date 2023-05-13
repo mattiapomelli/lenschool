@@ -18,11 +18,16 @@ export const useEnrolledCourses = (profile: Profile) => {
   });
 
   const query = useQuery<CourseWithPublication[]>(
-    ["courses"],
+    ["enrolled-courses", profile.handle],
     async () => {
       if (!knowledgeLayerCourse || !publications) return [];
 
-      const courseIds = (publications as Post[]).map((publication) => {
+      const filteredPublications = (publications as Post[]).filter(
+        (publication) =>
+          publication.metadata.content?.includes("#lenschooldev"),
+      );
+
+      const courseIds = (filteredPublications as Post[]).map((publication) => {
         return Number(
           publication.metadata.attributes.find(
             (attr) => attr.traitType === "CourseId",
@@ -48,7 +53,7 @@ export const useEnrolledCourses = (profile: Profile) => {
       );
 
       const coursesWithPublication: CourseWithPublication[] = (
-        publications as Post[]
+        filteredPublications as Post[]
       ).map((publication, index) => ({
         ...courses[index],
         metadata: coursesMetadata[index],

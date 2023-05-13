@@ -13,6 +13,8 @@ export const useCourse = (pubId: string) => {
     publicationId: publicationId(pubId),
   });
 
+  console.log("Publication: ", publication);
+
   const query = useQuery<CourseWithPublication | undefined>(
     ["course", pubId],
     async () => {

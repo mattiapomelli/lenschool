@@ -1,12 +1,3 @@
-import { useMutation } from "wagmi";
-
-import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
-import { uploadToIPFS } from "@utils/ipfs";
-import { uploadImage } from "@utils/upload-image";
-import { upload } from "@utils/upload";
-
-import type { BigNumber, ContractReceipt } from "ethers";
-
 import {
   useActiveProfile,
   useCreatePost,
@@ -15,6 +6,14 @@ import {
   NftAttributeDisplayType,
   ProfileOwnedByMe,
 } from "@lens-protocol/react-web";
+import { useMutation } from "wagmi";
+
+import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
+import { uploadToIPFS } from "@utils/ipfs";
+import { upload } from "@utils/upload";
+import { uploadImage } from "@utils/upload-image";
+
+import type { BigNumber, ContractReceipt } from "ethers";
 
 export interface CreateCourseData {
   title: string;

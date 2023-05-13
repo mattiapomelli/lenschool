@@ -1,4 +1,4 @@
-import { Post, useSearchPublications } from "@lens-protocol/react-web";
+import { Post, Profile, usePublications } from "@lens-protocol/react-web";
 import { useQuery } from "wagmi";
 
 import { useKnowledgeLayerCourse } from "@hooks/use-knowledgelayer-course";
@@ -6,21 +6,31 @@ import { fetchFromIpfs } from "@utils/ipfs";
 
 import { Course, CourseMetadata, CourseWithPublication } from "./types";
 
-export const useCourses = () => {
+export const useCreatedCourses = (profile: Profile) => {
   const knowledgeLayerCourse = useKnowledgeLayerCourse();
 
-  const { data: publications, loading } = useSearchPublications({
-    query: "lenschooldev",
+  const { data: publications, loading } = usePublications({
+    profileId: profile.id,
+    limit: 50,
+    // TODO: Understand why this filter is not working
+    // metadataFilter: {
+    //   restrictPublicationTagsTo: {
+    //     oneOf: ["#lenschooldev"],
+    //   },
+    // },
   });
 
-  console.log("publications: ", publications);
-
   const query = useQuery<CourseWithPublication[]>(
-    ["courses"],
+    ["created-courses", profile.handle],
     async () => {
       if (!knowledgeLayerCourse || !publications) return [];
 
-      const courseIds = (publications as Post[]).map((publication) => {
+      const filteredPublications = (publications as Post[]).filter(
+        (publication) =>
+          publication.metadata.content?.includes("#lenschooldev"),
+      );
+
+      const courseIds = (filteredPublications as Post[]).map((publication) => {
         return Number(
           publication.metadata.attributes.find(
             (attr) => attr.traitType === "CourseId",
@@ -46,7 +56,7 @@ export const useCourses = () => {
       );
 
       const coursesWithPublication: CourseWithPublication[] = (
-        publications as Post[]
+        filteredPublications as Post[]
       ).map((publication, index) => ({
         ...courses[index],
         metadata: coursesMetadata[index],

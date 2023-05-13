@@ -2,16 +2,16 @@ import { Profile } from "@lens-protocol/react-web";
 
 import { Spinner } from "@components/basic/spinner";
 import { CourseCard } from "@components/course/course-card";
-import { useEnrolledCourses } from "@lib/courses/use-enrolled-courses";
+import { useCreatedCourses } from "@lib/courses/use-created-courses";
 
-interface ProfileEnrolledCoursesInnerProps {
+interface ProfileCreatedCoursesInnerProps {
   profile: Profile;
 }
 
-const ProfileEnrolledCoursesInner = ({
+const ProfileCreatedCoursesInner = ({
   profile,
-}: ProfileEnrolledCoursesInnerProps) => {
-  const { data: courses, isLoading } = useEnrolledCourses(profile);
+}: ProfileCreatedCoursesInnerProps) => {
+  const { data: courses, isLoading } = useCreatedCourses(profile);
 
   if (isLoading) {
     return (
@@ -24,7 +24,7 @@ const ProfileEnrolledCoursesInner = ({
   if (!courses || courses?.length === 0)
     return (
       <div className="my-14 flex justify-center">
-        <p>No enrolled courses yet</p>
+        <p>No created courses yet</p>
       </div>
     );
 
@@ -37,21 +37,21 @@ const ProfileEnrolledCoursesInner = ({
   );
 };
 
-interface ProfileEnrolledCoursesProps {
+interface ProfileCreatedCoursesProps {
   className?: string;
   profile: Profile;
 }
 
-export const ProfileEnrolledCourses = ({
+export const ProfileCreatedCourses = ({
   className,
   profile,
-}: ProfileEnrolledCoursesProps) => {
+}: ProfileCreatedCoursesProps) => {
   return (
     <div className={className}>
       <h4 className="mb-4 mt-2 text-xl font-bold">
-        What {profile.handle} is learning right now
+        What {profile.handle} is teaching right now
       </h4>
-      <ProfileEnrolledCoursesInner profile={profile} />
+      <ProfileCreatedCoursesInner profile={profile} />
     </div>
   );
 };
