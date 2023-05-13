@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import Image from "next/legacy/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 
@@ -55,9 +56,16 @@ const CourseInfo = ({ course }: { course: CourseWithPublication }) => {
                 priority
               />
             </div>
-            <h4 className="mt-1 text-lg font-semibold">
-              {course.publication.profile.handle}
-            </h4>
+            <Link
+              href={`/user/${course.publication.profile.handle.replace(
+                ".test",
+                "",
+              )}`}
+            >
+              <h4 className="mt-1 text-lg font-semibold hover:opacity-70">
+                {course.publication.profile.handle}
+              </h4>
+            </Link>
           </div>
           <p className="mt-4">{course.metadata.description}</p>
         </div>

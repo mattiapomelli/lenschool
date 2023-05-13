@@ -1,5 +1,6 @@
 import { Wallet } from "@lens-protocol/react-web";
 import Image from "next/legacy/image";
+import Link from "next/link";
 
 import { Button } from "@components/basic/button";
 import { getPictureURL } from "@utils/ipfs-to-gateway-url";
@@ -28,7 +29,9 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
       </p>
 
       <div className="flex gap-2">
-        <Button color="neutral">See profile</Button>
+        <Link href={`/user/${defaultProfile?.handle.replace(".test", "")}`}>
+          <Button color="neutral">See profile</Button>
+        </Link>
         <Button>Connect</Button>
       </div>
     </div>

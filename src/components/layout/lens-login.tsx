@@ -71,7 +71,7 @@ export const LensLogin = () => {
             <Menu.Items className="absolute z-50 mt-1 w-full space-y-1 rounded-md border bg-white p-0.5 text-sm text-gray-900">
               <Menu.Item>
                 <Link
-                  href={"/profile"}
+                  href={`/user/${activeProfile.handle.replace(".test", "")}`}
                   className="block w-full rounded-md p-1.5 hover:cursor-pointer hover:bg-lime-300 hover:text-lime-900"
                 >
                   Profile
