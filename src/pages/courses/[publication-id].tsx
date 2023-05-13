@@ -79,9 +79,15 @@ const CourseInfo = ({
             <div className="flex w-full flex-col items-center gap-4">
               <CoursePlayer course={course} className="w-full" />
               {!course.isReferral && (
-                <Button color="neutral" size="lg">
-                  Refer course
-                </Button>
+                <>
+                  <p className="max-w-[300px] text-center">
+                    Share this course with your frens and earn a fee for every
+                    purchase made
+                  </p>
+                  <Button color="neutral" size="lg">
+                    Refer course
+                  </Button>
+                </>
               )}
             </div>
           ) : (
