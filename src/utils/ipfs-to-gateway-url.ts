@@ -1,3 +1,4 @@
+// @ts-ignore
 export const getPictureURL = (profile: ProfileFragment) => {
   let picture = "/lens.jpeg";
   if (profile.picture) {
