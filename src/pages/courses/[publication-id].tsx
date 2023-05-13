@@ -41,6 +41,9 @@ const CourseInfo = ({
   const { connector: activeConnector } = useAccount();
   const [currentAllowance, setAllowance] = useState<string>("0.0");
 
+  const [approvalLoading, setApprovalLoading] = useState(false);
+  const [enrollLoading, setEnrollLoading] = useState(false);
+
   useEffect(() => {
     if (activeConnector) {
       // check allowance
@@ -83,8 +86,11 @@ const CourseInfo = ({
     },
   ];
 
+  // console.log("Publication: ", course);
+
   const handleApproval = async (event: FormEvent) => {
     event.preventDefault();
+    setApprovalLoading(true);
 
     if (activeConnector) {
       // TODO: compare allowance with policy amount
@@ -101,13 +107,28 @@ const CourseInfo = ({
             ethers.constants.MaxUint256,
           );
         await approveTx.wait();
+
+        const allowance = await erc20
+          .connect(signer)
+          .allowance(
+            signer.getAddress(),
+            course.publication.collectPolicy.contractAddress,
+          );
+
+        setAllowance(ethers.utils.formatEther(allowance));
       }
     }
+
+    setApprovalLoading(false);
   };
 
   const handleCollect = async (event: FormEvent) => {
     event.preventDefault();
-    collect().then(console.log).catch(console.log);
+    setEnrollLoading(true);
+    collect()
+      .then(console.log)
+      .catch(console.log)
+      .finally(() => setEnrollLoading(false));
   };
 
   const handleReferral = async (event: FormEvent) => {
@@ -191,12 +212,18 @@ const CourseInfo = ({
                 {ethers.utils.formatEther(course.price)} WMATIC
               </span>
               {currentAllowance === "0.0" && (
-                <Button onClick={handleApproval} size="lg">
+                <Button
+                  onClick={handleApproval}
+                  size="lg"
+                  loading={approvalLoading}
+                  disabled={approvalLoading}
+                >
                   Approve
                 </Button>
               )}
               <Button
-                disabled={currentAllowance === "0.0"}
+                disabled={currentAllowance === "0.0" || enrollLoading}
+                loading={enrollLoading}
                 onClick={handleCollect}
                 size="lg"
               >
