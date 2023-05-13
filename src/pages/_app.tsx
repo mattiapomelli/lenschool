@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
+import { init } from "@airstack/airstack-react";
 import { LensProvider } from "@lens-protocol/react-web";
 import {
   LivepeerConfig,
@@ -23,6 +24,8 @@ import { lensConfig } from "../utils/lens-provider";
 
 import type { ExtendedPage } from "@types";
 import type { AppProps } from "next/app";
+
+init(env.NEXT_PUBLIC_AIRSTACK_API_KEY);
 
 const { chains, provider } = configureChains(
   [CHAIN],

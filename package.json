@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@airstack/airstack-react": "^0.2.1",
     "@bundlr-network/client": "^0.11.1",
     "@headlessui/react": "^1.7.3",
     "@heroicons/react": "^2.0.18",
@@ -23,8 +24,10 @@
     "@supabase/supabase-js": "^2.21.0",
     "@t3-oss/env-nextjs": "^0.3.1",
     "@worldcoin/idkit": "^0.4.9",
+    "add": "^2.0.6",
     "classnames": "^2.3.2",
     "ethers": "^5.7.1",
+    "graphql-request": "^6.0.0",
     "ipfs-http-client": "^60.0.0",
     "next": "^13.4.2",
     "next-seo": "^5.5.0",
@@ -35,6 +38,7 @@
     "react-hook-form": "^7.37.0",
     "tailwind-merge": "^1.8.0",
     "wagmi": "^0.12.10",
+    "yarn": "^1.22.19",
     "zod": "^3.21.4"
   },
   "devDependencies": {
