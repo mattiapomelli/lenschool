@@ -81,6 +81,14 @@ export const LensLogin = () => {
                 </Link>
               </Menu.Item>
               <Menu.Item>
+                <Link
+                  href={`/on-ramp`}
+                  className=" block w-full rounded-md px-3 py-1.5 font-medium hover:cursor-pointer hover:bg-lime-300 hover:text-lime-900"
+                >
+                  Buy crypto
+                </Link>
+              </Menu.Item>
+              <Menu.Item>
                 <div
                   className=" w-full rounded-md px-3 py-1.5 font-medium hover:cursor-pointer hover:bg-lime-300 hover:text-lime-900"
                   onClick={signOut}

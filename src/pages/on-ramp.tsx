@@ -1,14 +1,13 @@
-import {
-  SafeOnRampKit,
-  SafeOnRampProviderType,
-  StripePack,
-} from "@safe-global/onramp-kit";
+import { SafeOnRampKit, StripePack } from "@safe-global/onramp-kit";
+import { useState } from "react";
 import { useAccount } from "wagmi";
 
 import { Button } from "@components/basic/button";
 
 const SafePage = () => {
   const { address } = useAccount();
+
+  const [showButton, setShowButton] = useState(true);
 
   const fundWallet = async function () {
     const safeOnRamp = await SafeOnRampKit.init(
@@ -23,10 +22,16 @@ const SafePage = () => {
 
     // See options for using the StripePack open method in:
     // https://stripe.com/docs/crypto/using-the-api
-    const sessionData = await safeOnRamp.open({
+    await safeOnRamp.open({
       element: "#stripe-root",
       theme: "light",
-      defaultOptions: {},
+      defaultOptions: {
+        transaction_details: {
+          wallet_address: address,
+          lock_wallet_address: true,
+          supported_destination_networks: ["polygon"],
+        },
+      },
       // Optional, if you want to use a specific created session
       // ---
       // sessionId: 'cos_1Mei3cKSn9ArdBimJhkCt1XC',
@@ -44,6 +49,8 @@ const SafePage = () => {
       // }
     });
 
+    setShowButton(false);
+
     // Subscribe to Stripe events
     safeOnRamp.subscribe("onramp_ui_loaded", () => {
       console.log("UI loaded");
@@ -55,8 +62,18 @@ const SafePage = () => {
   };
 
   return (
-    <div id="stripe-root">
-      <Button onClick={fundWallet}>Fund Wallet</Button>
+    <div
+      id="stripe-root"
+      className="mt-10 flex flex-col items-center gap-5 text-center"
+    >
+      <h1 className="mb-6 text-3xl font-bold underline decoration-primary">
+        Buy crypto and get started learning 🚀
+      </h1>
+      <p className="max-w-[440px] text-center">
+        Don&apos;t have any crypto? No worries! You can buy crypto with your
+        credit card and get started right away.
+      </p>
+      {showButton && <Button onClick={fundWallet}>Buy crypto</Button>}
     </div>
   );
 };
