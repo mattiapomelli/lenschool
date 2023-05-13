@@ -19,7 +19,7 @@ export const useCourses = () => {
     limit: 50,
   });
 
-  console.log("publications: ", publications);
+  // console.log("Publications: ", publications);
 
   const query = useQuery<CourseWithPublication[]>(
     ["courses"],
@@ -60,9 +60,12 @@ export const useCourses = () => {
         publication,
       }));
 
-      console.log("Courses with publication: ", coursesWithPublication);
-
-      return coursesWithPublication;
+      return coursesWithPublication.filter((publication, index) => {
+        const existingIndex = coursesWithPublication.findIndex(
+          (p) => publication.id === p.id,
+        );
+        return existingIndex === index;
+      });
     },
     {
       enabled: !loading,

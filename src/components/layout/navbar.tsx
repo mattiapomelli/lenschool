@@ -55,6 +55,7 @@ export const Navbar = () => {
         >
           <div className="flex items-center gap-4">
             <div className="hidden items-center gap-2 md:flex">
+              <NavItem text="Feed" href="/courses" />
               <NavItem text="Create course" href="/create" />
             </div>
             <ThemeToggle />

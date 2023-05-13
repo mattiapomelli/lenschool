@@ -49,7 +49,7 @@ export const ProfileCreatedCourses = ({
   return (
     <div className={className}>
       <h4 className="mb-4 mt-2 text-xl font-bold">
-        What {profile.handle} is teaching right now
+        What {profile.handle} is teaching
       </h4>
       <ProfileCreatedCoursesInner profile={profile} />
     </div>

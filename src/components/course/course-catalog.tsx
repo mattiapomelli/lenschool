@@ -42,7 +42,7 @@ export const CourseCatalog = ({ className }: { className?: string }) => {
   const [topic, setTopic] = useState("");
   return (
     <div className={className}>
-      <div className="mb-4 mt-2 flex space-x-3">
+      <div className="my-2 flex flex-col gap-3 md:flex-row">
         <h4 className="text-xl font-bold">Courses</h4>
         <CourseFilters setTopic={setTopic} topic={topic} />
       </div>
