@@ -58,7 +58,7 @@ export const LensLogin = () => {
       <div className="flex items-center">
         {activeProfile ? (
           <Menu as="div" className="relative text-xs text-lime-900">
-            <Menu.Button className="flex cursor-pointer items-center space-x-1 rounded-lg bg-lime-300 px-2 py-1.5">
+            <Menu.Button className="flex cursor-pointer items-center space-x-1 rounded-lg bg-lime-300 px-3 py-1.5">
               <Image
                 src={getPictureURL(activeProfile)}
                 alt={activeProfile.handle}
@@ -74,14 +74,14 @@ export const LensLogin = () => {
               <Menu.Item>
                 <Link
                   href={`/user/${activeProfile.handle.replace(".test", "")}`}
-                  className="block w-full rounded-md p-1.5 hover:cursor-pointer hover:bg-lime-300 hover:text-lime-900"
+                  className=" block w-full rounded-md px-3 py-1.5 font-medium hover:cursor-pointer hover:bg-lime-300 hover:text-lime-900"
                 >
                   Profile
                 </Link>
               </Menu.Item>
               <Menu.Item>
                 <div
-                  className="w-full rounded-md p-1.5 hover:cursor-pointer hover:bg-lime-300 hover:text-lime-900"
+                  className=" w-full rounded-md px-3 py-1.5 font-medium hover:cursor-pointer hover:bg-lime-300 hover:text-lime-900"
                   onClick={signOut}
                 >
                   Disconnect
