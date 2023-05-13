@@ -5,7 +5,7 @@ import {
   useWalletLogout,
   useApolloClient,
 } from "@lens-protocol/react-web";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import React from "react";
 import { useAccount, useConnect, useDisconnect, useSwitchNetwork } from "wagmi";
@@ -58,14 +58,15 @@ export const LensLogin = () => {
       <div className="flex items-center">
         {activeProfile ? (
           <Menu as="div" className="relative text-xs text-lime-900">
-            <Menu.Button className="flex cursor-pointer items-center space-x-1 rounded-lg bg-lime-300 px-3 py-1.5">
-              <Image
-                src={getPictureURL(activeProfile)}
-                alt={activeProfile.handle}
-                width={25}
-                height={25}
-                className="mr-1 rounded-full"
-              />
+            <Menu.Button className="flex cursor-pointer items-center gap-1.5 space-x-1 rounded-lg bg-lime-300 px-3 py-1.5">
+              <div className="relative h-7 w-7 overflow-hidden rounded-full">
+                <Image
+                  src={getPictureURL(activeProfile)}
+                  alt={activeProfile.handle}
+                  className="shrink-0 rounded-full"
+                  layout="fill"
+                />
+              </div>
               <span className="text-base font-medium">
                 {activeProfile.handle}
               </span>

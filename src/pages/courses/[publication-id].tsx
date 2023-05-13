@@ -96,6 +96,8 @@ const CourseInfo = ({
       .catch(console.log);
   };
 
+  console.log("Publication: ", course.publication);
+
   return (
     <div>
       <div className="flex flex-col gap-10 md:flex-row">
