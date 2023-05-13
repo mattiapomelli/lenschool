@@ -19,6 +19,7 @@ import type { NextPage } from "next";
 interface CreateCourseFields {
   title: string;
   price: string;
+  referral: string;
   description: string;
   keywords: string;
 }
@@ -65,12 +66,13 @@ const CreateCourseForm = () => {
     // } else {
     // if (!asset.playbackId || !image) return;
     // if (!asset.playbackId || !image) return;
-    const { title, description, price, keywords } = data;
+    const { title, description, price, referral, keywords } = data;
 
     createCourse({
       title,
       description,
       price: ethers.utils.parseEther(price),
+      referral: Number(referral),
       // image,
       image: new File([], ""),
       // videoPlaybackId: asset.plsaybackId,
@@ -86,6 +88,7 @@ const CreateCourseForm = () => {
         <Input
           label="Title"
           block
+          defaultValue="title"
           {...register("title", { required: "Title is required" })}
           error={errors.title?.message}
         />
@@ -94,18 +97,29 @@ const CreateCourseForm = () => {
           type="number"
           step="0.0000001"
           block
+          defaultValue="1"
           {...register("price", { required: "Price is required" })}
           error={errors.price?.message}
         />
         <Input
+          label="Referral fee (%)"
+          type="number"
+          block
+          defaultValue="1"
+          {...register("referral", { required: "Referral fee is required" })}
+          error={errors.referral?.message}
+        />
+        <Input
           label="Categories (sep. by comma)"
           block
+          defaultValue="category1, category2"
           {...register("keywords", { required: "Category is required" })}
           error={errors.keywords?.message}
         />
         <TextArea
           label="Description"
           rows={3}
+          defaultValue="description"
           {...register("description", {
             required: "Description is required",
           })}
