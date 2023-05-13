@@ -18,9 +18,9 @@ export const Hero = () => {
       <Link href="/courses">
         <Button size="lg">Start learning</Button>
       </Link>
-      <LensLogo className="absolute bottom-[10%] left-[10%] h-16 w-16 md:bottom-[20%]" />
-      <LensLogo className="absolute right-[-20px] top-[35%] h-14 w-14 rotate-[-20deg] md:right-[8%]" />
-      <LensLogo className="absolute left-[40%] top-[0%] h-14 w-14 rotate-12" />
+      <LensLogo className="absolute bottom-[10%] left-[10%] h-16 w-16 text-primary opacity-80 md:bottom-[20%]" />
+      <LensLogo className="absolute right-[-20px] top-[35%] h-14 w-14 rotate-[-20deg] text-primary opacity-80 md:right-[8%]" />
+      <LensLogo className="absolute left-[40%] top-[0%] h-14 w-14 rotate-12 text-primary opacity-80" />
     </section>
   );
 };

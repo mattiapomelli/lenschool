@@ -27,14 +27,10 @@ export const useCourses = () => {
       if (!knowledgeLayerCourse || !publications) return [];
 
       const courseIds = (publications as Post[]).map((publication) => {
-        console.log("publication: ", publication);
         const courseId = publication.metadata.attributes.find(
           (attr) => attr.traitType === "CourseId",
         )?.value;
-        console.log("CourseId: ", courseId);
-        if (courseId) {
-          return Number(courseId);
-        }
+        return Number(courseId);
       });
 
       console.log("CourseIds: ", courseIds);

@@ -13,7 +13,7 @@ export const CreatorsSection = () => {
         referral programs to reach a wider audience.
       </p>
       <Link href="/create">
-        <Button>Start teaching</Button>
+        <Button size="lg">Start teaching</Button>
       </Link>
     </section>
   );
