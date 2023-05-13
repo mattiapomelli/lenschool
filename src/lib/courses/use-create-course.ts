@@ -77,7 +77,7 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
           description +
           " " +
           keywords.map((k) => "#" + k).join(" ") +
-          ` ${LENSCHOOL_TAG}`,
+          ` #${LENSCHOOL_TAG}`,
         contentFocus: ContentFocus.TEXT,
         locale: "en",
         collect: {
@@ -88,7 +88,7 @@ export const useCreateCourse = (options?: UseCreateCourseOptions) => {
           ),
           mirrorReward: referral,
           timeLimited: false,
-          followersOnly: true,
+          followersOnly: false,
           recipient: profile?.ownedBy as string,
           metadata: {
             name: title,
