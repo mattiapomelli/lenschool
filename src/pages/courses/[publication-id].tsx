@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 
 import { Button } from "@components/basic/button";
+import { CopyButton } from "@components/basic/copy-button";
 import { Spinner } from "@components/basic/spinner";
 import { Tabs } from "@components/basic/tabs";
 import { CourseForum } from "@components/course/course-forum";
@@ -40,9 +41,15 @@ const CourseInfo = ({
   const { execute: mirror } = useCreateMirror({
     publisher: activeProfile as ProfileOwnedByMeFragment,
   });
-  const [referralCopied, setReferralCopied] = useState(false);
 
   const hasPurchasedCourse = course.publication.hasCollectedByMe;
+  const referralMirrorId = course.publication.mirrors.findLast((mirror) =>
+    mirror.includes(activeProfile?.id + "-"),
+  );
+  const referralLink = referralMirrorId
+    ? "http://localhost:3000/courses/" + referralMirrorId
+    : null;
+  console.log("Referral: ", referralLink);
 
   const items = [
     {
@@ -62,20 +69,14 @@ const CourseInfo = ({
   };
 
   const handleReferral = async (event: FormEvent) => {
+    console.log(course.publication);
     console.log("mirroring post");
     event.preventDefault();
     mirror({
       publication: course.publication,
     })
       .then(() => {
-        if (activeProfile) {
-          const mirrorId =
-            "0x" + (activeProfile?.stats.totalPublications + 1).toString(16);
-          copyToClipboard(
-            `http://localhost:3000/courses/${activeProfile.id}-${mirrorId}`,
-          );
-          setReferralCopied(true);
-        }
+        router.reload();
       })
       .catch(console.log);
   };
@@ -119,7 +120,7 @@ const CourseInfo = ({
         </div>
 
         <div className="flex w-full flex-1 flex-col items-center justify-center gap-4 p-10">
-          {hasPurchasedCourse || course.seller === address ? (
+          {hasPurchasedCourse ? (
             <div className="flex w-full flex-col items-center gap-4">
               <CoursePlayer course={course} className="w-full" />
               {!course.isReferral && course.seller !== address && (
@@ -128,9 +129,16 @@ const CourseInfo = ({
                     Share this course with your frens and earn a fee for every
                     purchase made
                   </p>
-                  <Button color="neutral" size="lg">
-                    Refer course
-                  </Button>
+                  {referralLink ? (
+                    <CopyButton
+                      text={referralLink}
+                      label="Copy referral link"
+                    />
+                  ) : (
+                    <Button onClick={handleReferral} color="neutral" size="lg">
+                      Refer course
+                    </Button>
+                  )}
                 </>
               )}
             </div>
@@ -141,9 +149,6 @@ const CourseInfo = ({
               </span>
               <Button onClick={handleCollect} size="lg">
                 Enroll now
-              </Button>
-              <Button onClick={handleReferral} color="secondary" size="lg">
-                {referralCopied ? "Copied!" : "Get referral link"}
               </Button>
             </div>
           )}
