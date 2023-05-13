@@ -65,6 +65,7 @@ export const CourseCard = ({ course }: CourseCardProps) => {
           if (hashColors.has(keyword)) {
             return (
               <div
+                key={keyword}
                 className={`w-fit rounded bg-${hashColors.get(
                   keyword,
                 )}-200 text-sm text-${hashColors.get(

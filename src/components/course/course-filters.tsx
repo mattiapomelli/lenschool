@@ -1,12 +1,6 @@
 import { FormEvent } from "react";
 
-export const CourseFilters = ({
-  topic,
-  setTopic,
-}: {
-  topic: string;
-  setTopic: Function;
-}) => {
+export const CourseFilters = ({ setTopic }: { setTopic: Function }) => {
   const handleSetTopic = async (event: FormEvent, topic: string) => {
     event.preventDefault();
     setTopic(topic);

@@ -1,8 +1,9 @@
+import { useEffect, useState } from "react";
+
 import { Spinner } from "@components/basic/spinner";
 import { CourseCard } from "@components/course/course-card";
 import { CourseFilters } from "@components/course/course-filters";
 import { useCourses } from "@lib/courses/use-courses";
-import { useEffect, useState } from "react";
 
 const CourseCatalogInner = ({ topic }: { topic: string }) => {
   const { data: courses, isLoading } = useCourses();
@@ -53,7 +54,7 @@ export const CourseCatalog = ({ className }: { className?: string }) => {
     <div className={className}>
       <div className="flex mb-4 mt-2 space-x-3">
         <h4 className="text-xl font-bold">Courses</h4>
-        <CourseFilters topic={topic} setTopic={setTopic} />
+        <CourseFilters setTopic={setTopic} />
       </div>
       <CourseCatalogInner topic={topic} />
     </div>
