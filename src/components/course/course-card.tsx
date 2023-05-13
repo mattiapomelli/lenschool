@@ -33,16 +33,14 @@ export const CourseCard = ({ course }: CourseCardProps) => {
       <div className="mt-1 flex items-center gap-4">
         <span>
           By:{" "}
-          <Link
+          {/* <Link
             href={`/user/${course.publication.profile.handle.replace(
               ".test",
               "",
             )}`}
-          >
-            <span className="font-bold hover:opacity-70">
-              {course.publication.profile.handle}
-            </span>
-          </Link>
+          > */}
+          <span className="font-bold">{course.publication.profile.handle}</span>
+          {/* </Link> */}
         </span>
         <span>
           Price:{" "}

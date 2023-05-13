@@ -1,4 +1,4 @@
-import { hardhat, polygonMumbai } from "wagmi/chains";
+import { hardhat, polygon, polygonMumbai } from "wagmi/chains";
 
 import { env } from "env.mjs";
 
@@ -10,6 +10,8 @@ const getChain = () => {
       return hardhat;
     case "testnet":
       return polygonMumbai;
+    case "mainnet":
+      return polygon;
     default:
       throw new Error("Invalid NEXT_PUBLIC_CHAIN value");
   }
