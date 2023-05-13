@@ -10,7 +10,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        main: ["Inter", ...fontFamily.sans],
+        main: ["Rubik", ...fontFamily.sans],
       },
       colors: {
         "base-content-neutral": "hsl(var(--bc) / 0.6)",
@@ -30,6 +30,8 @@ module.exports = {
       {
         light: {
           ...require("daisyui/src/colors/themes")["[data-theme=light]"],
+          primary: "#0ba327",
+          accent: "#52f7a4",
           "--btn-text-case": "none",
           "--rounded-btn": "0.75rem",
         },

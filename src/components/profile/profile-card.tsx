@@ -16,7 +16,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
   const { defaultProfile } = profile;
 
   return (
-    <div className="rounded-box flex flex-col items-center gap-4 bg-base-200 px-4 py-3">
+    <div className="rounded-box flex flex-col items-center gap-4 bg-base-200 px-4 py-5">
       <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full">
         <Image
           src={getPictureURL(defaultProfile)}
