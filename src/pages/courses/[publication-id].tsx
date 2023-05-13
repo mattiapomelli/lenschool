@@ -25,6 +25,13 @@ import type { CourseWithPublicationAndReferral } from "@lib/courses/types";
 
 const WMATIC = "0x9c3c9283d3e44854697cd22d3faa240cfb032889"; // WMATIC
 
+const hashColors = new Map();
+hashColors.set("AI", "green");
+hashColors.set("Arts and Humanities", "red");
+hashColors.set("Web3", "blue");
+hashColors.set("Data Science", "orange");
+hashColors.set("Health", "blue");
+
 const CourseInfo = ({
   course,
 }: {
@@ -180,6 +187,23 @@ const CourseInfo = ({
             </Link>
           </div>
           <p className="mt-4">{course.metadata.description}</p>
+          <div className="mt-1.5 flex space-x-2">
+            {course.metadata.keywords.map((keyword) => {
+              if (hashColors.has(keyword)) {
+                return (
+                  <div
+                    className={`w-fit rounded bg-${hashColors.get(
+                      keyword,
+                    )}-200 text-sm text-${hashColors.get(
+                      keyword,
+                    )}-900 py-1 px-3 mb-3`}
+                  >
+                    {keyword}
+                  </div>
+                );
+              }
+            })}
+          </div>
         </div>
 
         <div className="flex w-full flex-1 flex-col items-center justify-center gap-4 p-10">
