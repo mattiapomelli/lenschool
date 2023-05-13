@@ -5,7 +5,7 @@ const topicClassname: Record<string, string> = {
   "Arts and Humanities": "bg-red-500 text-red-900 dark:text-red-200",
   Web3: "bg-blue-500 text-blue-900 dark:text-blue-200",
   "Data Science": "bg-orange-500 text-orange-900 dark:text-orange-200",
-  Health: "bg-yellow-500 text-yellow-900 dark:text-red-200",
+  Music: "bg-yellow-500 text-yellow-900 dark:text-red-200",
 };
 
 interface CourseTagProps {

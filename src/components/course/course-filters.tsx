@@ -5,7 +5,7 @@ interface CourseFiltersProps {
   topic: string;
 }
 
-const topics = ["AI", "Arts and Humanities", "Web3", "Data Science", "Health"];
+const topics = ["AI", "Arts and Humanities", "Web3", "Data Science", "Music"];
 
 export const CourseFilters = ({
   setTopic,
