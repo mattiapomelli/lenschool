@@ -12,7 +12,7 @@ export const CreatorsSection = () => {
         Share and monetize your knowledge by teaching to other people. Leverage
         referral programs to reach a wider audience.
       </p>
-      <Link href="/create" target="_blank" rel="noreferrer">
+      <Link href="/create">
         <Button>Start teaching</Button>
       </Link>
     </section>

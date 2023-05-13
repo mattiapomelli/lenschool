@@ -15,7 +15,7 @@ interface ComponentCardProps {
 const FeatureCard = ({ title, description, icon }: ComponentCardProps) => {
   return (
     <div className="rounded-box flex max-w-[20rem] flex-col gap-4 bg-base-300 p-6">
-      <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-primary-content bg-primary">
+      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary">
         <span className="h-8 w-8 text-primary-content">{icon}</span>
       </div>
       <h4 className="text-xl font-bold">{title}</h4>

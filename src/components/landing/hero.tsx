@@ -15,7 +15,7 @@ export const Hero = () => {
         interaction that in-person education provides. Lenschool bring social
         elements to online education.
       </p>
-      <Link href="/courses" target="_blank" rel="noreferrer">
+      <Link href="/courses">
         <Button size="lg">Start learning</Button>
       </Link>
       <LensLogo className="absolute bottom-[10%] left-[10%] h-16 w-16 md:bottom-[20%]" />
