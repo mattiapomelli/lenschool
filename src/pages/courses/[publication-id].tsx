@@ -70,7 +70,7 @@ const CourseInfo = ({ course }: { course: CourseWithPublication }) => {
           <p className="mt-4">{course.metadata.description}</p>
         </div>
 
-        <div className="flex w-full flex-1 items-center justify-center p-10">
+        <div className="flex w-full flex-1 flex-col items-center justify-center gap-4 p-10">
           {hasPurchasedCourse || course.seller === address ? (
             <CoursePlayer course={course} className="w-full" />
           ) : (
@@ -81,6 +81,9 @@ const CourseInfo = ({ course }: { course: CourseWithPublication }) => {
               <Button size="lg">Enroll now</Button>
             </div>
           )}
+          <Button color="neutral" size="lg">
+            Refer course
+          </Button>
         </div>
       </div>
 
