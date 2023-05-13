@@ -1,8 +1,9 @@
-import { Wallet } from "@lens-protocol/react-web";
+import { Wallet, useActiveProfile } from "@lens-protocol/react-web";
 import Image from "next/legacy/image";
 import Link from "next/link";
 
 import { Button } from "@components/basic/button";
+import { getDMLink } from "@utils/get-dm-link";
 import { getPictureURL } from "@utils/ipfs-to-gateway-url";
 
 interface ProfileCardProps {
@@ -10,7 +11,10 @@ interface ProfileCardProps {
 }
 
 export const ProfileCard = ({ profile }: ProfileCardProps) => {
+  const { data: activeProfile } = useActiveProfile();
+
   const { defaultProfile } = profile;
+
   return (
     <div className="rounded-box flex flex-col items-center gap-4 bg-base-200 px-4 py-3">
       <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full">
@@ -32,7 +36,15 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
         <Link href={`/user/${defaultProfile?.handle.replace(".test", "")}`}>
           <Button color="neutral">See profile</Button>
         </Link>
-        <Button>Connect</Button>
+        {activeProfile && defaultProfile && (
+          <a
+            href={getDMLink(activeProfile, defaultProfile)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button>Connect</Button>
+          </a>
+        )}
       </div>
     </div>
   );

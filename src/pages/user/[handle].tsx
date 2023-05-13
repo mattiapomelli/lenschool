@@ -1,4 +1,8 @@
-import { useProfile, Profile } from "@lens-protocol/react-web";
+import {
+  useProfile,
+  Profile,
+  useActiveProfile,
+} from "@lens-protocol/react-web";
 import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 
@@ -7,9 +11,11 @@ import { Spinner } from "@components/basic/spinner";
 import { Tabs } from "@components/basic/tabs";
 import { ProfileCreatedCourses } from "@components/profile/profile-created-courses";
 import { ProfileEnrolledCourses } from "@components/profile/profile-enrolled-courses";
+import { getDMLink } from "@utils/get-dm-link";
 import { getPictureURL } from "@utils/ipfs-to-gateway-url";
 
 const ProfileInfo = ({ profile }: { profile: Profile }) => {
+  const { data: activeProfile } = useActiveProfile();
   const items = [
     {
       label: "Enrolled Courses",
@@ -34,9 +40,17 @@ const ProfileInfo = ({ profile }: { profile: Profile }) => {
           />
         </div>
         <h1 className="mt-1 text-2xl font-semibold">{profile.handle}</h1>
-        <Button size="sm" className="ml-2">
-          Connect
-        </Button>
+        {activeProfile && (
+          <a
+            href={getDMLink(activeProfile, profile)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button size="sm" className="ml-2">
+              Connect
+            </Button>
+          </a>
+        )}
       </div>
       <p className="mt-4">{profile.bio}</p>
 
