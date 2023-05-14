@@ -54,7 +54,7 @@ export const CreateCourseForm = () => {
       // const id = receipt.events?.find((e) => e.event === "CourseCreated")?.args
       //   ?.courseId;
 
-      router.push(`/user/${activeProfile?.handle}`);
+      router.push(`/user/${activeProfile?.handle.replace(".test", "")}`);
     },
   });
 
