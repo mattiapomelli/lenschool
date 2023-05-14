@@ -8,9 +8,9 @@ interface TechnologyCardProps {
 
 const TechnologyCard = ({ logo, text }: TechnologyCardProps) => {
   return (
-    <div className="flex h-20 items-center gap-10">
+    <div className="flex flex-col items-center gap-x-10 gap-y-4 md:h-20 md:flex-row">
       {logo}
-      <p className="text-2xl">{text}</p>
+      <p className="text-center text-2xl">{text}</p>
     </div>
   );
 };
@@ -21,7 +21,7 @@ export const TechnologiesSecion = () => {
       <h3 className="max-w-[30rem] text-center text-3xl font-bold">
         Powered by
       </h3>
-      <div className="flex flex-col items-center gap-8">
+      <div className="flex flex-col items-center gap-x-8 gap-y-10">
         <TechnologyCard
           logo={
             <Image src="/lens-logo.svg" width={54} height={73} alt="Lens" />

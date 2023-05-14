@@ -184,7 +184,7 @@ const CourseInfo = ({
           </div>
         </div>
 
-        <div className="flex w-full flex-1 flex-col items-center justify-center gap-4 p-10">
+        <div className="flex w-full flex-1 flex-col items-center justify-center gap-4 md:p-10">
           {hasPurchasedCourse ? (
             <div className="flex w-full flex-col items-center gap-4">
               <CoursePlayer course={course} className="w-full" />
