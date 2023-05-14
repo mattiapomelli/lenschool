@@ -4,7 +4,7 @@ import { Button } from "@components/basic/button";
 
 export const CreatorsSection = () => {
   return (
-    <section className="rounded-box flex flex-col items-center gap-6 bg-accent py-20">
+    <section className="rounded-box flex flex-col items-center gap-6 bg-accent px-5 py-20">
       <h3 className="max-w-[34rem] text-center text-3xl font-bold">
         Are you a creator?
       </h3>

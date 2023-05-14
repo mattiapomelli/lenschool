@@ -45,7 +45,7 @@ export const CourseStudentsList = ({
   return (
     <div className={className}>
       <h4 className="mb-5 text-xl font-bold">
-        Meet and connect with your fellow learner frens
+        Connect with your fellow learner frens
       </h4>
       <CourseStudentsListInner publicationId={publicationId} />
     </div>

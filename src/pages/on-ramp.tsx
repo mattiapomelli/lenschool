@@ -69,9 +69,9 @@ const SafePage = () => {
       <h1 className="mb-6 text-3xl font-bold underline decoration-primary">
         Buy crypto and get started learning 🚀
       </h1>
-      <p className="max-w-[440px] text-center">
+      <p className="max-w-[420px] text-center">
         Don&apos;t have any crypto? No worries! You can buy crypto with your
-        credit card and get started right away.
+        credit card and get started to enroll in courses right away.
       </p>
       {showButton && <Button onClick={fundWallet}>Buy crypto</Button>}
     </div>
