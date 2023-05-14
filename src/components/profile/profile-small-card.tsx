@@ -27,7 +27,7 @@ export const ProfileSmallCard = ({ profile }: ProfileSmallCardProps) => {
       <div className="flex flex-col">
         <h4 className="mt-1 font-semibold">{profile.handle}</h4>
         <p className="text-sm text-base-content/70">
-          {profile.bio?.substring(0, 50).concat("...")}
+          {profile.bio?.substring(0, 30).concat("...")}
         </p>
       </div>
     </Link>
