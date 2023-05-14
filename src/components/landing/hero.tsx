@@ -11,9 +11,11 @@ export const Hero = () => {
         <span className="text-primary">frens</span> 🎓 🌿
       </h1>
       <p className="max-w-[20rem] text-xl text-base-content-neutral sm:max-w-[36rem]">
-        Online education is the future, but lacks the social aspect and
+        Lenschool is a social learning platform to make online education more
+        fun, collaborative and efficient.
+        {/* Online education is the future, but lacks the social aspect and
         interaction that in-person education provides. Lenschool bring social
-        elements to online education.
+        elements to online education. */}
       </p>
       <Link href="/courses">
         <Button size="lg">Start learning</Button>

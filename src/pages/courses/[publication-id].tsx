@@ -1,4 +1,5 @@
 import {
+  CollectPolicyType,
   ProfileOwnedByMeFragment,
   useActiveProfile,
   useCollect,
@@ -191,8 +192,11 @@ const CourseInfo = ({
               {!course.isReferral && (
                 <>
                   <p className="max-w-[300px] text-center">
-                    Share this course with your frens and earn a fee for every
-                    sale made through your link
+                    Share this course with your frens and earn a{" "}
+                    {course.publication.collectPolicy.type ===
+                      CollectPolicyType.CHARGE &&
+                      course.publication.collectPolicy.referralFee}
+                    % fee for every sale made through your link
                   </p>
                   {referralLink ? (
                     <CopyButton

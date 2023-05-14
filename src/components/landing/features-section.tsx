@@ -32,15 +32,17 @@ export const FeaturesSection = () => {
         <span className="text-primary">fun</span> and{" "}
         <span className="text-primary">efficient</span>
       </h3>
-      <p className="max-w-[28rem] text-center text-lg text-base-content-neutral">
-        Studies prove that learning in groups improves retention and completion
-        rates.
+      <p className="max-w-[30rem] text-center text-lg text-base-content-neutral">
+        Most online education platforms miss the social elements of in-person
+        education. Lenschool brings those social elements to online education.
+        {/* Studies prove that learning in groups improves retention and completion
+        rates. */}
       </p>
       <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2">
         <FeatureCard
           icon={<AcademicCapIcon />}
           title="Learn"
-          description="Enroll in online video courses and grow your skills and knowledge"
+          description="Enroll in online video courses and grow your skills and knowledge."
         />
         <FeatureCard
           icon={<UserGroupIcon />}
