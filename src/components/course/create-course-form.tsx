@@ -1,3 +1,4 @@
+import { useActiveProfile } from "@lens-protocol/react-web";
 import { ethers } from "ethers";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -21,6 +22,7 @@ interface CreateCourseFields {
 }
 
 export const CreateCourseForm = () => {
+  const { data: activeProfile } = useActiveProfile();
   const [asset, setAsset] = useState<Asset | undefined>();
 
   const router = useRouter();
@@ -52,7 +54,7 @@ export const CreateCourseForm = () => {
       // const id = receipt.events?.find((e) => e.event === "CourseCreated")?.args
       //   ?.courseId;
 
-      router.push(`/`);
+      router.push(`/user/${activeProfile?.handle}`);
     },
   });
 
