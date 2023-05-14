@@ -34,7 +34,7 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
 
       <div className="flex gap-2">
         <Link href={`/user/${defaultProfile?.handle.replace(".test", "")}`}>
-          <Button color="neutral">See profile</Button>
+          <Button color="accent">See profile</Button>
         </Link>
         {activeProfile && defaultProfile && (
           <a
