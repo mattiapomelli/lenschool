@@ -17,12 +17,13 @@ const CourseForumInner = ({ publicationId }: { publicationId: string }) => {
     );
   }
 
-  if (comments?.length === 0)
-    return (
-      <div className="my-14 flex justify-center">
-        <p>No comments yet</p>
-      </div>
-    );
+  // if (comments?.length === 0)
+  //   return (
+  //     <div className="flex flex-col justify-center">
+  //       <p>No discussions yet</p>
+  //       <CreateCommentForm pubId={publicationId} />
+  //     </div>
+  //   );
 
   return (
     <div className="flex flex-col gap-10">
@@ -45,7 +46,7 @@ export const CourseForum = ({ className, publicationId }: CourseForumProps) => {
   return (
     <div className={className}>
       <h4 className="mb-5 text-xl font-bold">
-        Discuss about course content with your fellow learners
+        Discuss about the course with your fellow learners
       </h4>
       <CourseForumInner publicationId={publicationId} />
     </div>
