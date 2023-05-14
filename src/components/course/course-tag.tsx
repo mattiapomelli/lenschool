@@ -28,7 +28,7 @@ export const CourseTag = ({
       onClick={() => onClick?.(topic)}
       className={cx(
         onClick !== undefined ? "cursor-pointer" : "cursor-default",
-        "rounded  px-3 py-1 text-sm ",
+        "rounded-btn px-3 py-1 text-sm ",
         selected ? "bg-opacity-80" : "bg-opacity-30",
         topicClassname[topic],
         className,

@@ -37,7 +37,7 @@ export const TechnologiesSecion = () => {
               alt="Worldcoin"
             />
           }
-          text="Proving that teachers are humans"
+          text="Verify that teachers are humans"
         />
         <TechnologyCard
           logo={<span className="text-2xl font-black">KnowledgeLayer</span>}

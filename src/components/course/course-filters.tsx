@@ -23,7 +23,7 @@ export const CourseFilters = ({
       ))}
       <div
         onClick={() => setTopic("")}
-        className="cursor-pointer rounded bg-gray-300 px-3 py-1 text-sm text-gray-900"
+        className="rounded-btn cursor-pointer bg-gray-300 px-3 py-1 text-sm text-gray-900"
       >
         Clear
       </div>
