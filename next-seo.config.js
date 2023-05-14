@@ -1,6 +1,6 @@
-const title = "My App";
-const description = "This is my awesome app";
-const url = "https://beta.cryvia.xyz/";
+const title = "Lenschool";
+const description = "Learn with your frens";
+const url = "https://lenschool.vercel.app/";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
