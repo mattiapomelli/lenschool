@@ -12,7 +12,7 @@ export const Hero = () => {
       </h1>
       <p className="max-w-[20rem] text-xl text-base-content-neutral sm:max-w-[36rem]">
         Lenschool is a social learning platform to make online education more
-        fun, collaborative and efficient.
+        fun, collaborative and effective.
         {/* Online education is the future, but lacks the social aspect and
         interaction that in-person education provides. Lenschool bring social
         elements to online education. */}
