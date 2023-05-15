@@ -98,7 +98,9 @@ const CourseInfo = ({
       // console.log(collectPolicy.amount.value);
 
       // approval
-      if (currentAllowance === "0.0") {
+      if (
+        ethers.utils.parseEther(currentAllowance).lt(course.price.toNumber())
+      ) {
         const signer = await activeConnector.getSigner();
         const erc20 = new Contract(WMATIC, erc20ABI, signer);
         const approveTx = await erc20
@@ -222,7 +224,9 @@ const CourseInfo = ({
               <span className="text-center font-bold">
                 {ethers.utils.formatEther(course.price)} WMATIC
               </span>
-              {currentAllowance === "0.0" && (
+              {ethers.utils
+                .parseEther(currentAllowance)
+                .lt(course.price.toNumber()) && (
                 <Button
                   onClick={handleApproval}
                   size="lg"
@@ -233,7 +237,11 @@ const CourseInfo = ({
                 </Button>
               )}
               <Button
-                disabled={currentAllowance === "0.0" || collectIsPending}
+                disabled={
+                  ethers.utils
+                    .parseEther(currentAllowance)
+                    .lt(course.price.toNumber()) || collectIsPending
+                }
                 loading={collectIsPending}
                 onClick={handleCollect}
                 size="lg"
